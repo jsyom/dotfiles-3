@@ -3,12 +3,14 @@
 ##############################
 #Use zsh by default
 set -g default-shell /usr/local/bin/zsh
-set-option -g default-command "reattach-to-user-namespace -l zsh" # or bash...
+# set-option -g default-command "reattach-to-user-namespace -l zsh" # or bash...
+set-option -g default-command 'reattach-to-user-namespace -l $SHELL'
 set -g status on
 # tmux display things in 256 colors
 set -g default-terminal "xterm-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
-set -g history-limit 100000
+set -g history-limit 5000                 # boost history
+
 ##############################
 # => KEY BINDINGS
 ##############################
@@ -17,8 +19,6 @@ set -g history-limit 100000
 unbind C-b
 set -g prefix C-a
 bind C-a send-prefix
-## Allows us to use C-a a <command> to send commands to a TMUX session inside
-# another TMUX session
 bind-key a send-prefix
 
 # move OS clipboard into tmux paste buffer
@@ -28,17 +28,14 @@ bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy" \; display
 
 # reload config file
 bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
-
 # load dev config
 bind C-d source-file ~/.tmux/dev.conf \; display "Dev config loaded!"
-
 # quickly open a new window
 bind N new-window
 
 # split window and fix path for tmux 1.9
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
-
 # synchronize all panes in a window
 bind y setw synchronize-panes
 
@@ -47,32 +44,40 @@ bind h select-pane -L
 bind j select-pane -D
 bind k select-pane -U
 bind l select-pane -R
-
 bind -r C-h select-window -t :-
 bind -r C-l select-window -t :+
-
 # Resize pane shortcuts
 bind -r H resize-pane -L 2
 bind -r J resize-pane -D 2
 bind -r K resize-pane -U 2
 bind -r L resize-pane -R 2
-
 # enable mouse support for switching panes/windows
 set -g mouse on
-
 # maximizing and restoring windows
 unbind Up
 bind Up new-window -d -n fullscreen \; swap-pane -s fullscreen.1 \; select-window -t fullscreen
 unbind Down
 bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
 
-# set vi mode for copy mode
-setw -g mode-keys vi
+# swap window order
+# swap-window -t -1
+
+# force Vi mode
+#   really you should export VISUAL or EDITOR environment variable, see manual
+set -g status-keys vi
+set -g mode-keys vi
+
 # more settings to make copy-mode more vim-like
 unbind [
 bind Escape copy-mode
 unbind p
-bind p paste-buffer
+
+# -- buffers -------------------------------------------------------------------
+
+bind b list-buffers  # list paste buffers
+bind p paste-buffer  # paste from the top paste buffer
+bind P choose-buffer # choose which buffer to paste from
+
 # Setup 'v' to begin selection as in Vim
 bind-key -T copy-mode-vi 'v' send -X begin-selection
 bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel
@@ -90,73 +95,84 @@ bind b switchc -l
 # switch between windows
 bind C-a next-window
 bind n last-window
-##############################
-# STYLING
-##############################
-# set refresh interval for status bar
-set -g status-interval 0
+bind Tab last-window        # move to last active window
 
-set -g status-fg white
-set -g status-bg default
-set -g status-attr bright
+# -- display -------------------------------------------------------------------
 
-set -g status-interval 1
-set -g status-justify centre # center align window list
-set -g status-left-length 60
-set -g status-right-length 100
-set -g status-left ''
-set -g status-right ''
+# set -g base-index 1         # start windows numbering at 1
+# setw -g pane-base-index 1   # make pane numbering consistent with windows
+#
+# setw -g automatic-rename on # rename window to reflect current program
+# set -g renumber-windows on  # renumber windows when a window is closed
+#
+# set -g set-titles on                        # set terminal title
+# set -g set-titles-string '#I #W'
+#
+# set -g display-panes-time 800 # slightly longer pane indicators display time
+# set -g display-time 1000      # slightly longer status messages display time
+#
+# set -g status-interval 10     # redraw status line every 10 seconds
+#
+# # clear both screen and history
+# bind -n C-l send-keys C-l \; run 'sleep 0.1' \; clear-history
+#
+# # activity
+# set -g monitor-activity on
+# set -g visual-activity off
 
-# #H hostname of localhost #S Session Name #I Window inedex #P pane number
-set -g status-left '#[fg=green]#H #[fg=black]• #[fg=red]#S#[fg=red] #I:#P#[default]'
-set -g status-right '#[fg=green,bg=black,bright]#(tmux-mem-cpu-load 1) #[fg=red,dim]#(ifconfig en0 | grep "inet " | cut -f 2 -d " ") #[fg=blue]%Y-%m-%d #[fg=white]%a%l:%M:%S %p#[default]'
 
-setw -g window-status-current-format ' #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour50]#F '
-setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
-
-
-########################
-# WINDOWS
-########################
-# make window/pane index start with 1
+set-option -g default-command 'reattach-to-user-namespace -l $SHELL'
+# start numbering windows from 1 instead of zero
 set -g base-index 1
+# make pane numbering consistent with windows
 setw -g pane-base-index 1
+# disable programs changing window names via terminal escape sequence
+set-window-option -g allow-rename off
+set -g set-titles on
+# #T is host #W is program name
+set -g set-titles-string "#S"
+# status bar
+set -g status-position bottom
+set -g status-fg colour8
+set -g status-bg colour234
+set -g status-right "#(battery) "
+set -g status-right-length 250
+set -g status-interval 15
 
-# default window title colors
-set-window-option -g window-status-fg white
-set-window-option -g window-status-bg default
-set-window-option -g window-status-attr dim
+# window list
+set -g window-status-format " #W "
+set -g window-status-current-format "#[fg=colour117,bg=colour31] #[fg=colour231]#W#[fg=colour234] "
+set -g window-status-activity-bg colour12
+set -g window-status-activity-fg colour0
+# set-window-option -g window-status-current-bg red
+#0087d7
 
-# active window title colors
-set-window-option -g window-status-current-fg white
-set-window-option -g window-status-current-bg default
-set-window-option -g window-status-current-attr bright
+setw -g automatic-rename on
+# Renumber a window when one is closed
+set -g renumber-windows on
 
-# color status bar
-set -g status-bg default
-set -g status-fg red
+# current session
+set -g status-left ' #S '
+set -g status-left-length 15
 
-# Highlight active window
-set-window-option -g window-status-current-bg red
-#######################
-# PANES
-#######################
-# Highlight active pane
-set-option -g pane-active-border-fg red
 
+
+
+
+set -g status-interval 10     # redraw status line every 10 seconds
 # Automatically renumber tmux windows
 set -g renumber-windows on
-# Activity Monitoring
-setw -g monitor-activity off
+set -g monitor-activity on
 set -g visual-activity off
+# Activity Monitoring
 # Rather than constraining window size to the maximum size of any client
 # connected to the *session*, constrain window size to the maximum size of any
 # client connected to *that window*. Much more reasonable.
 setw -g aggressive-resize on
-# auto window rename
-set-window-option -g automatic-rename off
+# # auto window rename
+# set-window-option -g automatic-rename off
 # make delay shorter
-set -s escape-time 0
+set -s escape-time 10
 set -sg escape-time 0
 
 # tile all windows
@@ -196,3 +212,77 @@ run-shell '~/.tmux/plugins/tpm/tpm'
 # # switch to Ranger session
 # bind f switchc -t Finder
 # switch back to last session
+
+
+
+
+
+#
+#
+# ##############################
+# # STYLING
+# ##############################
+# # set refresh interval for status bar
+# set -g status-interval 0
+#
+# set -g status-fg white
+# set -g status-bg default
+# set -g status-attr bright
+#
+# set -g status-interval 1
+# set -g status-justify centre # center align window list
+# set -g status-left-length 60
+# set -g status-right-length 100
+# set -g status-left ''
+# set -g status-right ''
+#
+# # #H hostname of localhost #S Session Name #I Window inedex #P pane number
+# set -g status-left '#[fg=green]#H #[fg=black]• #[fg=red]#S#[fg=red] #I:#P#[default]'
+# set -g status-right '#[fg=green,bg=black,bright]#(tmux-mem-cpu-load 1) #[fg=red,dim]#(ifconfig en0 | grep "inet " | cut -f 2 -d " ") #[fg=blue]%Y-%m-%d #[fg=white]%a%l:%M:%S %p#[default]'
+#
+# setw -g window-status-current-format ' #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour50]#F '
+# setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
+#
+#
+# ########################
+# # WINDOWS
+# ########################
+# # make window/pane index start with 1
+# set -g base-index 1
+# setw -g pane-base-index 1
+#
+# # default window title colors
+# set-window-option -g window-status-fg white
+# set-window-option -g window-status-bg default
+# set-window-option -g window-status-attr dim
+#
+# # active window title colors
+# set-window-option -g window-status-current-fg white
+# set-window-option -g window-status-current-bg default
+# set-window-option -g window-status-current-attr bright
+#
+# # color status bar
+# set -g status-bg default
+# set -g status-fg red
+#
+# # Highlight active window
+# set-window-option -g window-status-current-bg red
+#0087d7
+# #######################
+# # PANES
+# #######################
+# # Highlight active pane
+# set-option -g pane-active-border-fg red
+#
+#
+
+
+
+
+
+
+
+
+
+
+

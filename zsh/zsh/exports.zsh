@@ -3,6 +3,8 @@ export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 # Update PATH variable to access yarn binaries
 export PATH="$PATH:`yarn global bin`"
+export ZSH=$HOME/.oh-my-zsh
+
 # export PATH=/usr/local/bin:/usr/local/sbin:$PATH
 # platform=$(uname)
 #
@@ -26,8 +28,9 @@ export LC_ALL=en_US.UTF-8
 export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export TERM=xterm-256color
-
 export EDITOR="nvim"
+export KEYTIMEOUT=1
+
 # export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 
 

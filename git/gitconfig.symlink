@@ -52,11 +52,12 @@
 	status = auto
 	branch = auto
 	interactive = auto
-	ui = auto
+	ui = true
 
 [core]
 	excludesfile = ~/.gitignore_global
 	editor = vim
+	pager = diff-so-fancy | less --tabs=4 -RFX
 
 [diff]
 	# Detect copies as well as renames
@@ -83,3 +84,15 @@
 	email = johnyom87@gmail.com
 [credential]
 	helper = osxkeychain
+[color "diff-highlight"]
+	oldNormal = red bold
+	oldHighlight = red bold 52
+	newNormal = green bold
+	newHighlight = green bold 22
+[color "diff"]
+	meta = yellow
+	frag = magenta bold
+	commit = yellow bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
