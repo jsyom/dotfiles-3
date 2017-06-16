@@ -1,5 +1,5 @@
 export PATH="/usr/local/bin:$PATH"
-
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 # Update PATH variable to access yarn binaries
 export PATH="$PATH:`yarn global bin`"
 
@@ -11,7 +11,10 @@ export LC_ALL=en_US.UTF-8
 export TERM=xterm-256color
 
 # neovim as default
+# export EDITOR="nvim"
+# vim as default
 export EDITOR="nvim"
+
 
 # export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 
