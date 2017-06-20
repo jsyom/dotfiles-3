@@ -1,7 +1,6 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""
-
 call plug#begin('~/.vim/plugged')
 
 " Interactive command execution
@@ -48,6 +47,8 @@ Plug 'jlanzarotta/bufexplorer'
 " Tree explorer for vim.
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 
+" Syntastic
+" Plug 'scrooloose/syntastic' "Run linters and display errors etc
 " Asynchronous Lint Engine
 Plug 'w0rp/ale'
 
@@ -59,8 +60,7 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Comment stuff out
-Plug 'tpope/vim-commentary'
-
+Plug 'tomtom/tcomment_vim'
 " Visually select larger regions of text using the same key combination
 Plug 'terryma/vim-expand-region'
 
@@ -118,9 +118,6 @@ Plug 'airblade/vim-gitgutter'
 " Instant Markdown previews
 Plug 'suan/vim-instant-markdown', { 'for': 'markdown' }
 
-" Jade syntax highlighting
-" Plug 'digitaltoad/vim-pug', { 'for': ['jade', 'pug'] }
-
 " Javascript indentation and syntax support
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'jelera/vim-javascript-syntax', {'for':['javascript', 'javascript.jsx']}
@@ -169,7 +166,6 @@ Plug 'tpope/vim-speeddating', { 'for': 'org' }
 " Insert or delete brackets, parens, quotes in pair
 Plug 'jiangmiao/auto-pairs'
 
-
 " EditorConfig for consistent coding style
 Plug 'editorconfig/editorconfig-vim'
 
@@ -178,9 +174,6 @@ Plug 'wellle/targets.vim'
 
 " Speed up Vim by updating folds only when called-for
 Plug 'Konfekt/FastFold'
-
-" Metrics, insights, and time tracking
-" Plug 'wakatime/vim-wakatime'
 
 " Color scheme
 Plug 'tyrannicaltoucan/vim-quantum'
@@ -415,15 +408,15 @@ if has('nvim')
 "   let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
 "   let g:tern#command = ['tern']
 "   let g:tern#arguments = ['--persistent']
-"   autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-  "inoremap <expr><TAB> pumvisible() ?
+  autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+  " inoremap <expr><TAB> pumvisible() ?
   "\<C-n>" :
   ""\<TAB>"
 
-  " set completeopt-=preview
+  set completeopt-=preview
 
   " Automatically close preview window after autocompletion
-  autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+  autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
 endif
 
 
@@ -437,7 +430,7 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 let g:UltiSnipsEditSplit="vertical"
 
 
-" let g:SuperTabDefaultCompletionType = '<C-n>'
+let g:SuperTabDefaultCompletionType = '<C-n>'
 
 """"""""""""""""""""""""""""""
 " vim-instant-markdown
@@ -476,8 +469,6 @@ nnoremap <silent> <leader>z :ZoomWinTabToggle<cr>
 " CtrlSF
 """"""""""""""""""""""""""""""
 " Prompt CtrlSF using ALT+f
-" nmap <M-f> <Plug>CtrlSFPrompt
-" vmap <M-f> <Plug>CtrlSFVwordPath
 
 nmap <leader>i <Plug>CtrlSFPrompt
 vmap <leader>i <Plug>CtrlSFVwordPath
@@ -490,11 +481,11 @@ let g:ctrlsf_indent = 2
 """"""""""""""""""""""""""""""
 " Vim Orgmode
 """"""""""""""""""""""""""""""
-let g:org_export_emacs="/usr/local/bin/emacs"
-let g:org_agenda_files = ['~/Desktop/Notes/daily-notes.org']
-let g:org_todo_keywords = ['TODO', '|', 'DONE']
-let g:org_aggressive_conceal = 1
-
+" let g:org_export_emacs="/usr/local/bin/emacs"
+" let g:org_agenda_files = ['~/Desktop/Notes/daily-notes.org']
+" let g:org_todo_keywords = ['TODO', '|', 'DONE']
+" let g:org_aggressive_conceal = 1
+"
 
 """"""""""""""""""""""""""""""
 " Tmuxline
@@ -549,11 +540,13 @@ let g:ale_open_list = 0 " this keeps the loclist lint errors from showing up in 
 let g:ale_lint_on_enter = 1 " 0 disables linting on enter
 let g:ale_lint_on_save = 1 " lint on save instead
 let g:ale_lint_on_text_changed = 0
+let g:ale_set_quickfix = 1
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'jsx': ['eslint'],
 \}
-
+nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+nmap <silent> <C-j> <Plug>(ale_next_wrap)
 augroup FiletypeGroup
     autocmd!
     au BufNewFile,BufRead *.jsx set filetype=javascript.jsx
@@ -574,12 +567,46 @@ function! LinterStatus() abort
 endfunction
 
 set statusline=%{LinterStatus()}
-
+"
 """"""""""""""""""""""""""""""
 " EditorConfig
 """"""""""""""""""""""""""""""
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 
+"""""""""""
+" SYNTAStIC
+"""""""""""" Syntastic and ESLint
+" nnoremap <leader>, :SyntasticToggle<cr>
+" nnoremap <leader>,, :SyntasticCheck<cr>
+" set statusline+=%#warningmsg#
+" set statusline+=%{SyntasticStatuslineFlag()}
+" set statusline+=%*
+"
+" let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['javascript'], 'passive_filetypes': [] }
+" let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_loc_list_height = 5
+" let g:syntastic_auto_loc_list = 0
+" let g:syntastic_check_on_open = 1
+" let g:syntastic_check_on_wq = 1
+" let g:syntastic_javascript_checkers = ['eslint']
+"
+" let g:syntastic_error_symbol = '❌'
+" let g:syntastic_style_error_symbol = '⁉️'
+" let g:syntastic_warning_symbol = '⚠️'
+" let g:syntastic_style_warning_symbol = '💩'
+"
+" " let g:syntastic_error_symbol = 'ㄨ'
+" " let g:syntastic_style_error_symbol = 'ㄨ'
+" " let g:syntastic_warning_symbol = 'ㄨ'
+" " let g:syntastic_style_warning_symbol = 'ㄨ'
+"
+" highlight link SyntasticErrorSign SignColumn
+" highlight link SyntasticWarningSign SignColumn
+" highlight link SyntasticStyleErrorSign SignColumn
+" highlight link SyntasticStyleWarningSign SignColumn
+"
+" " syntastic starts in passive mode
+" autocmd VimEnter * SyntasticToggleMode
 
 """"""""""""""""""""""""""""""
 " indentLine

@@ -1,4 +1,4 @@
-" Allow vim to break compatibility with vi
+" Allod vim to break compatibility with vi
 set nocompatible
 
 " Map Leader to space
@@ -8,7 +8,7 @@ let g:mapleader = "\<Space>"
 if (has("termguicolors"))
   set termguicolors
 endif
-
+let g:ale_emit_conflict_warnings = 0
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => LOAD PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -93,7 +93,7 @@ set ffs=unix,dos,mac
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
 "HTML Editing
-set matchpairs+=<:>
+" set matchpairs+=<:>
 
 " Treat <li> and <p> tags like the block tags they are
 let g:html_indent_tags = 'li\|p'
@@ -106,7 +106,8 @@ set so=7
 
 " Search down into subfolders
 " Provides tab-completion for all file-related tasks
-set path+=**
+" set path+=**
+set path=$PWD/**
 
 " Turn on the Wild menu
 set wildmenu
@@ -131,8 +132,8 @@ set backspace=eol,start,indent
 set whichwrap+=<,>,h,l
 
 " In many terminal emulators the mouse works just fine, thus enable it.
-set ttyfast
 if has('mouse')
+  set ttyfast
   set mouse=a
 endif
 
@@ -251,8 +252,8 @@ nnoremap j gj
 nnoremap k gk
 
 " Use gj gk to go quicker
-noremap gj 5gj
-noremap gk 5gk
+" noremap gj 5gj
+" noremap gk 5gk
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
@@ -549,6 +550,18 @@ endfun
  inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
  inoremap <S-Tab> <c-n>
 
+" Abbreviations - fix common typos
+iabbrev funcoitn function
+iabbrev functoin function
+iabbrev funcotin function
+iabbrev retrun return
+iabbrev deafult default
+iabbrev defult default
+iabbrev sumbit submit
+iabbrev submut submit
+iabbrev consructor constructor
+iabbrev constuctor constructor
+iabbrev consuctor constructor
 
 " NERDTrees File highlighting
 function! NERDTreeHighlightFile(extension, fg, bg, guifg)
