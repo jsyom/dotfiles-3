@@ -8,6 +8,7 @@ alias lh='ls -a'
 # alias vim="vim"
 alias ":q"="exit"
 alias mkdir='mkdir -p'
+alias dot='cd $DOTFILES'
 alias root='cd $(git rev-parse --show-cdup)'
 alias path="echo $PATH | tr -s ':' '\n'"
 alias finder='open -a Finder .'
@@ -50,6 +51,10 @@ alias fs="stat -f \"%z bytes\""
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
+
+# kill a rogue process running on a specific port
+# usage: `killp 3000`
+killp() { lsof -n "-i4TCP:${1:-3002}" | grep LISTEN | tr -s ' ' | cut -f 2 -d ' ' | xargs kill -9}
 
 # Kill all the tabs in Chrome to free up memory
 alias killchrome="ps ux | grep '[C]hrome Helper --type=renderer' | grep -v extension-process | tr -s ' ' | cut -d ' ' -f2 | xargs kill"

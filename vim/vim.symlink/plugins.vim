@@ -126,7 +126,7 @@ Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
 
 " Yet Another JavaScript Syntax
 Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
+" Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
 " ES.Next syntax
 Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
 
@@ -177,6 +177,7 @@ Plug 'Konfekt/FastFold'
 
 " Color scheme
 Plug 'tyrannicaltoucan/vim-quantum'
+Plug 'Valloric/MatchTagAlways'
 
 call plug#end()
 
@@ -408,7 +409,7 @@ if has('nvim')
 "   let g:deoplete#sources['javascript.jsx'] = ['file', 'ultisnips', 'ternjs']
 "   let g:tern#command = ['tern']
 "   let g:tern#arguments = ['--persistent']
-  autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
+  " autocmd FileType javascript let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
   " inoremap <expr><TAB> pumvisible() ?
   "\<C-n>" :
   ""\<TAB>"
@@ -425,9 +426,9 @@ endif
 """"""""""""""""""""""""""""""
 " Trigger configuration
 let g:UltiSnipsExpandTrigger="<C-l>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-let g:UltiSnipsEditSplit="vertical"
+" let g:UltiSnipsJumpForwardTrigger="<tab>"
+" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" let g:UltiSnipsEditSplit="vertical"
 
 
 let g:SuperTabDefaultCompletionType = '<C-n>'
@@ -616,3 +617,12 @@ let g:indentLine_color_gui = '#65737E'
 
 """"""""""""""""""""""""""""""
 """"""""""""""""""""""""""""""
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xhtml' : 1,
+    \ 'xml' : 1,
+    \ 'jinja' : 1,
+    \ 'javascript' : 1,
+    \ 'javascript.jsx' : 1,
+    \}
+nnoremap <leader>j :MtaJumpToOtherTag<cr>

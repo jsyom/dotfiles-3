@@ -8,7 +8,7 @@
 #### Clone this repo
 First step, clone the dotfiles repository to your computer. This can be placed anywhere, and symbolic links will be created to reference it from your home directory.
 ``` bash
-$ git clone https://github.com/epilande/dotfiles.git ~/.dotfiles
+$ git clone https://github.com/jsyom/dotfiles-3.git ~/.dotfiles
 $ cd ~/.dotfiles
 $ git submodule update --init --recursive
 ```
@@ -39,8 +39,8 @@ Here is an example `~/.localrc`:
 ```bash
 # Git credentials
 # Not under version control to prevent people from accidentally committing with your details
-GIT_AUTHOR_NAME="Emmanuel Pilande"
-GIT_AUTHOR_EMAIL="epilande@example.com"
+GIT_AUTHOR_NAME="John Yom"
+GIT_AUTHOR_EMAIL="email@example.com"
 GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
 GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 # Set the credentials (modifies ~/.gitconfig)

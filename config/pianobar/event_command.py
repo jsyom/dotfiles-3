@@ -22,3 +22,4 @@ if cmd == 'songstart':
         truncateSong = info = song[:38] + (song[38:] and '..')
 
         f.write(truncateSong)
+
