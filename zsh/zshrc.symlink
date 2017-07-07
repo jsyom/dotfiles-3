@@ -1,6 +1,6 @@
 # # Load NVM
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 export DOTFILES=$HOME/.dotfiles
 # Path to oh-my-zsh configuration
@@ -13,7 +13,7 @@ DEFAULT_USER=yommy
 export NVM_LAZY_LOAD=true
 
 # Plugins
-plugins=(git osx node npm zsh-nvm z zsh-syntax-highlighting)
+plugins=(git osx npm zsh-nvm z zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
 
