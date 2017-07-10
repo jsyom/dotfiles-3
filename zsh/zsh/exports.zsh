@@ -1,6 +1,5 @@
-#PATH
-export PATH="/usr/local/bin:$PATH"
 export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH="/usr/local/bin:$PATH"
 # Update PATH variable to access yarn binaries
 export PATH="$PATH:`yarn global bin`"
 
@@ -20,8 +19,8 @@ export EDITOR="vim"
 # export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 
 # Load NVM
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
+# export NVM_DIR="$HOME/.nvm"
+# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Load fzf
 # export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git -f -g "" -u"

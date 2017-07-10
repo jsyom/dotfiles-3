@@ -29,7 +29,7 @@ if has('nvim')
   Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern', 'for': ['javascript', 'javascript.jsx'] }
 else
   " Code completion
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.sh' }
+  Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 endif
 
 " Supertab
@@ -429,8 +429,7 @@ let g:UltiSnipsExpandTrigger="<C-l>"
 " let g:UltiSnipsJumpForwardTrigger="<tab>"
 " let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " let g:UltiSnipsEditSplit="vertical"
-
-
+let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:SuperTabDefaultCompletionType = '<C-n>'
 
 """"""""""""""""""""""""""""""
