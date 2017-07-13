@@ -23,6 +23,9 @@ fi
 # Tower
 alias tower="gittower ."
 
+# Youtube-dl
+# MP3
+alias ytmp3='youtube-dl --output "%(title)s.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0'
 # tmux aliases
 alias ta='tmux attach'
 alias tls='tmux ls'
