@@ -1,4 +1,4 @@
-" Allod vim to break compatibility with vi
+" Allow vim to break compatibility with vi
 set nocompatible
 
 " Map Leader to space
@@ -9,6 +9,7 @@ if (has("termguicolors"))
   set termguicolors
 endif
 let g:ale_emit_conflict_warnings = 0
+
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => LOAD PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -17,7 +18,7 @@ source ~/.vim/plugins.vim
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => BASIC SETTINGS
 """"""""""""""""""""""""""""""""""""""""""""""""""
-set clipboard=unnamed " clipboard
+set clipboard=unnamed " allow copy to system clipboard for copy paste
 set number " Show current line number
 set relativenumber " Show relative line numbers
 set cursorline " Highlight cursor current line
@@ -29,23 +30,19 @@ set autowrite " Automatically :write before running commmands
 au FocusGained,BufEnter * :silent! !
 
 " Enable filetype plugins
-filetype plugin on
-filetype indent on
-
-" Set to auto read when a file is changed from the outside
-set autoread
+filetype plugin indent on
+" filetype plugin on
+" filetype indent on
+set autoread " set to auto read when a file is changed from the outside
 
 " Fast editing of vimrc
 map <leader>e :e! ~/.vimrc<cr>
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => COLORS AND FONTS
 """"""""""""""""""""""""""""""""""""""""""""""""""
-
 " Enable syntax highlighting
 syntax enable
-
 set background=dark
 
 " Theme, Colorscheme, & Font
@@ -81,17 +78,12 @@ if has("gui_running")
   set guitablabel=%M\ %t
 endif
 
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
-
+set encoding=utf8 " Set utf8 as standard encoding and en_US as the standard language
+set ffs=unix,dos,mac " Use Unix as the standard file type
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => USER INTERFACE
 """"""""""""""""""""""""""""""""""""""""""""""""""
-
 "HTML Editing
 " set matchpairs+=<:>
 
@@ -104,15 +96,12 @@ set list listchars=tab:»·,trail:·,nbsp:·
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
 
-" Search down into subfolders
-" Provides tab-completion for all file-related tasks
 " set path+=**
 set path=$PWD/**
 
 " Turn on the Wild menu
 set wildmenu
 set wildmode=list:longest,full
-" set wildmode=full
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
@@ -175,7 +164,6 @@ hi Visual cterm=none ctermbg=11 ctermfg=none
 
 " Set folded highlight color
 hi Folded ctermbg=10 ctermfg=10
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => FILES, BACKUPS, AND UNDO
@@ -243,7 +231,6 @@ vnoremap <silent> # :call VisualSelection('b', '')<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => MOVING AROUND
 """"""""""""""""""""""""""""""""""""""""""""""""""
-
 " Treat long lines as break lines (useful when moving around in them).
 " Store relative line number jumps in the jumplist.
 " noremap <expr> j v:count > 1 ? 'm`' . v:count . 'j' : 'gj'
@@ -278,6 +265,7 @@ if has('nvim')
   tnoremap <C-l> <C-\><C-n><C-w>l
 endif
 
+
 " Map Alt-[h,j,k,l] for resizing a window split
 nnoremap <silent> <M-h> :vertical resize -2<CR>
 nnoremap <silent> <M-j> :resize -2<CR>
@@ -305,11 +293,9 @@ autocmd BufReadPost *
 " Remember info about open buffers on close
 set viminfo^=%
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => STATUS LINE
 """"""""""""""""""""""""""""""""""""""""""""""""""
-
 " Always show the status line
 set laststatus=2
 
@@ -319,13 +305,11 @@ set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{getcwd()}%h\ \ \ Line:\ 
 " Hide tabline
 set showtabline=1
 
-
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => SPELLING CHECK
 """"""""""""""""""""""""""""""""""""""""""""""""""
 
 hi SpellBad cterm=underline,bold ctermfg=red gui=underline,bold guifg=red
-
 " Toggle and untoggle spell checking
 map <leader>sc :setlocal spell!<cr>
 
@@ -334,7 +318,6 @@ map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => MAPPINGS
@@ -361,7 +344,6 @@ vnoremap < <gv
 
 " To the leftmost non-blank character of the current line
 map H g^
-
 " To the rightmost character of the current line
 map L g$
 

@@ -3,23 +3,49 @@
 """"""""""""""""""""""""""""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 
-" Interactive command execution
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/vimproc.vim', { 'do': 'make' } " Interactive command execution
+Plug 'Shougo/neomru.vim' " Most Recently Used
+" Plug 'Shougo/unite.vim' " Unite. The interface to rule almost everything
 
-" Unite. The interface to rule almost everything
-" Plug 'Shougo/unite.vim'
+""""""""""""""""""
+" Colors and Syntax
+""""""""""""""""""
+Plug 'tyrannicaltoucan/vim-quantum'
+Plug 'flazz/vim-colorschemes'
+Plug 'ap/vim-css-color' " Preview colors in source code
+Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' } " SCSS syntax highlighting
+Plug 'ryanoasis/vim-devicons' " Add filetype glyphs (icons)
+Plug 'whatyouhide/vim-gotham'
+Plug 'mhartington/oceanic-next'
+Plug 'altercation/vim-colors-solarized'
+Plug 'hail2u/vim-css3-syntax' " CSS3 syntax support
 
-" Most Recently Used
-Plug 'Shougo/neomru.vim'
+" AirLine
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
-" Add filetype glyphs (icons)
-Plug 'ryanoasis/vim-devicons'
-
-" Command-line fuzzy finder
+""""""""""""""""""
+" FZF
+""""""""""""""""""
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-" Tern-based JavaScript editing support
+""""""""""""""""""
+"Javascript Syntax
+""""""""""""""""""
+Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'jelera/vim-javascript-syntax', {'for':['javascript', 'javascript.jsx']}
+Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'fleischie/vim-styled-components', { 'for': ['javascript', 'javascript.jsx'] } " Syntax for styled-components
+" Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
+
+""""""""""""""""""""""""""""""""
+" Tern Deoplete and YouComple Me
+""""""""""""""""""""""""""""""""
 Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['javascript', 'javascript.jsx'] }
 
 if has('nvim')
@@ -32,156 +58,65 @@ else
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 endif
 
-" Supertab
-Plug 'ervandew/supertab'
+""""""""""""""""""
+" Tmux
+""""""""""""""""""
+Plug 'edkolev/tmuxline.vim' " Tmux statusline generator with support for airline
+Plug 'christoomey/vim-tmux-navigator' " Seamless navigation between tmux panes and vim splits
 
-" Emmet for vim
-Plug 'mattn/emmet-vim'
+""""""""""""""""""
+" Snippets
+""""""""""""""""""
+Plug 'epilande/vim-es2015-snippets', { 'for': ['javascript', 'javascript.jsx'] } " ES2015 code snippets
+Plug 'epilande/vim-react-snippets', { 'for': ['javascript', 'javascript.jsx'] } " React code snippets
+Plug 'SirVer/ultisnips' " Ultimate snippet solution
+Plug 'honza/vim-snippets' " Snippet files for various programming languages
 
-" Code search and view tool
-Plug 'dyng/ctrlsf.vim'
+""""""""""""""""""
+" Syntastic And Ale
+""""""""""""""""""
 
-" BufExplorer quickly and easily switch between buffer
-Plug 'jlanzarotta/bufexplorer'
-
-" Tree explorer for vim.
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-
-" Syntastic
-" Plug 'scrooloose/syntastic' "Run linters and display errors etc
-" Asynchronous Lint Engine
 Plug 'w0rp/ale'
+" Plug 'scrooloose/syntastic' "Run linters and display errors etc
 
-" Cache file automatically
-Plug 'MarcWeber/vim-addon-mw-utils'
+""""""""""""""""""
+" MISC
+""""""""""""""""""
 
-" Lean & mean status/tabline
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-
-" Comment stuff out
-Plug 'tomtom/tcomment_vim'
-" Visually select larger regions of text using the same key combination
-Plug 'terryma/vim-expand-region'
-
-" Git wrapper
-Plug 'tpope/vim-fugitive'
-
-" SCSS syntax highlighting
-Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' }
-
-" Markdown syntax highlighting
-" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
-
-" Enable repeating supported plugin maps
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'tpope/vim-fugitive' " Git wrapper
+Plug 'airblade/vim-gitgutter' " Shows a git diff in the gutter
+Plug 'Valloric/MatchTagAlways' " Color scheme
+Plug 'jiangmiao/auto-pairs' " Insert or delete brackets, parens, quotes in pair
+Plug 'troydm/zoomwintab.vim' " Zoom in/out of windows
+Plug 'ervandew/supertab'
+Plug 'mattn/emmet-vim'
+Plug 'dyng/ctrlsf.vim' " Code search and view tool
+Plug 'jlanzarotta/bufexplorer' " BufExplorer quickly and easily switch between buffer
+Plug 'tomtom/tcomment_vim' " Comment stuff out
 Plug 'tpope/vim-repeat'
-
-" ES2015 code snippets
-Plug 'epilande/vim-es2015-snippets', { 'for': ['javascript', 'javascript.jsx'] }
-
-" React code snippets
-Plug 'epilande/vim-react-snippets', { 'for': ['javascript', 'javascript.jsx'] }
-
-" Ultimate snippet solution
-Plug 'SirVer/ultisnips'
-
-" Snippet files for various programming languages
-Plug 'honza/vim-snippets'
-
-" Quoting/parenthesizing made simple
 Plug 'tpope/vim-surround'
-
-" Display indention levels with vertical lines
 Plug 'Yggdroot/indentLine'
-
-" Tmux statusline generator with support for airline
-Plug 'edkolev/tmuxline.vim'
-
-" Undo history visualizer
-Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' }
-
-" large colorscheme package
-Plug 'flazz/vim-colorschemes'
-
-" Preview colors in source code
-Plug 'ap/vim-css-color'
-
-" CSS3 syntax support
-Plug 'hail2u/vim-css3-syntax'
-
-" Vim motions on speed
-" Plug 'easymotion/vim-easymotion'
-
-" Shows a git diff in the gutter
-Plug 'airblade/vim-gitgutter'
-
-" Instant Markdown previews
-Plug 'suan/vim-instant-markdown', { 'for': 'markdown' }
-
-" Javascript indentation and syntax support
-Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
-Plug 'jelera/vim-javascript-syntax', {'for':['javascript', 'javascript.jsx']}
-" React JSX syntax highlighting & indenting
-Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
-
-" Yet Another JavaScript Syntax
-Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'othree/jspc.vim', { 'for': ['javascript', 'javascript.jsx'] }
-" ES.Next syntax
-Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
-
-" Syntax for JavaScript libraries
-Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
-
-" Block comments based on a function signature
-Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascript.jsx'] }
-
-" Syntax for styled-components
-Plug 'fleischie/vim-styled-components', { 'for': ['javascript', 'javascript.jsx'] }
-
-" Sublime Text style multiple selections
-" Plug 'terryma/vim-multiple-cursors'
-
-" Seamless navigation between tmux panes and vim splits
-Plug 'christoomey/vim-tmux-navigator'
-
-" Zoom in/out of windows
-Plug 'troydm/zoomwintab.vim'
-
-" Gotham colorscheme
-Plug 'whatyouhide/vim-gotham'
-
-" Oceanic Next colorscheme
-Plug 'mhartington/oceanic-next'
-
-" Solarized colorscheme
-Plug 'altercation/vim-colors-solarized'
-
-" Vim Orgmode
-Plug 'jceb/vim-orgmode', { 'for': 'org' }
-
-" Increment dates, times, and more
-Plug 'tpope/vim-speeddating', { 'for': 'org' }
-
-" Insert or delete brackets, parens, quotes in pair
-Plug 'jiangmiao/auto-pairs'
-
-" EditorConfig for consistent coding style
+Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " Undo history visualizer
 Plug 'editorconfig/editorconfig-vim'
+" Visually select larger regions of text using the same key combination
+Plug 'terryma/vim-expand-region' " press + to expand and _ to shrink
 
-" Provides additional text objects
-Plug 'wellle/targets.vim'
 
-" Speed up Vim by updating folds only when called-for
-Plug 'Konfekt/FastFold'
-
-" Color scheme
-Plug 'tyrannicaltoucan/vim-quantum'
-Plug 'Valloric/MatchTagAlways'
+""""""""""""""""""""""""""""""""""""
+" MIGHT DELETE DONT KNOW WHAT THEY DO
+""""""""""""""""""""""""""""""""""""
+Plug 'MarcWeber/vim-addon-mw-utils' " Cache file automatically
+Plug 'suan/vim-instant-markdown', { 'for': 'markdown' } " Instant Markdown previews
+Plug 'jceb/vim-orgmode', { 'for': 'org' } " Vim Orgmode
+Plug 'tpope/vim-speeddating', { 'for': 'org' } " Increment dates, times, and more
+Plug 'wellle/targets.vim' " Provides additional text objects
+Plug 'Konfekt/FastFold' " Speed up Vim by updating folds only when called-for
+" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' } " Markdown syntax highlighting
+" Plug 'terryma/vim-multiple-cursors' " Sublime Text style multiple selections
+" Plug 'easymotion/vim-easymotion' " Vim motions on speed
 
 call plug#end()
-
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => PLUGIN SPECIFC CONFIGURATIONS
@@ -196,77 +131,10 @@ let g:bufExplorerFindActive=1
 let g:bufExplorerSortBy='mru'
 map <leader>o :BufExplorer<cr>
 
-
 """"""""""""""""""""""""""""""
 " MRU plugin
 """"""""""""""""""""""""""""""
 let MRU_Max_Entries = 400
-
-
-""""""""""""""""""""""""""""""
-" Unite.vim
-""""""""""""""""""""""""""""""
-
-" Use the fuzzy matcher for everything
-" call unite#filters#matcher_default#use(['matcher_fuzzy'])
-" call unite#filters#converter_default#use(['converter_relative_word'])
-" call unite#filters#sorter_default#use(['sorter_rank'])
-" call unite#custom#source('file_mru,file_rec,file_rec/async', 'converters', 'converter_relative_word')
-
-" Restrict mru to display files for current project
-" call unite#custom#source(
-"   \ 'file_mru', 'matchers',
-"   \ ['matcher_project_files', 'matcher_fuzzy'])
-
-" call unite#custom#profile('default', 'context', {
-"   \ 'cursor_line_highlight' : 'CursorLine',
-"   \ 'start_insert': 1,
-"   \ 'winheight': 10,
-"   \ 'direction': 'botright',
-"   \ })
-
-" Set up some custom ignores
-" call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-"   \ 'ignore_pattern', join([
-"   \ '\.git/',
-"   \ 'tmp/',
-"   \ '.sass-cache',
-"   \ 'node_modules/',
-"   \ 'bower_components/',
-"   \ 'dist/',
-"   \ '.pyc',
-"   \ ], '\|'))
-
-" let g:unite_data_directory='~/.vim/.cache/unite'
-" let g:unite_source_history_yank_enable=1
-" let g:unite_source_rec_max_cache_files=5000
-" let g:unite_source_file_mru_limit=200
-" let g:unite_source_rec_async_command =
-"       \ ['ag', '--follow', '--nocolor', '--nogroup',
-"       \  '--hidden', '-g', '']
-" let g:unite_source_grep_command = 'ag'
-" let g:unite_source_grep_default_opts = '-s -H --nocolor --nogroup --column'
-" let g:unite_source_grep_recursive_opt = ''
-" let g:unite_prompt='❯ '
-
-" nnoremap <C-f> :<C-u>Unite -buffer-name=files file_mru file_rec/async:!<CR>
-" nnoremap <leader>f :<C-u>Unite -no-split -no-resize -direction=topleft -buffer-name=mru file_mru<CR>
-" nnoremap <leader>y :<C-u>Unite -no-start-insert history/yank<CR>
-" nnoremap <leader>/ :<C-u>Unite grep:.<CR>
-
-" Custom mappings for the unite buffer
-" autocmd FileType unite call s:unite_keymaps()
-
-" function! s:unite_keymaps()
-"   " Enable navigation with control-j and control-k in insert mode
-"   imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-"   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-
-"   " Exit unite with Esc while in insert mode
-"   nmap <buffer> <Esc>   <Plug>(unite_exit)
-"   imap <buffer> <Esc>   <Plug>(unite_exit)
-" endfunction
-
 
 """"""""""""""""""""""""""""""
 " FZF
@@ -289,7 +157,6 @@ nnoremap <silent> <leader>` :Marks<CR>
 nnoremap <silent> <leader>t :Tags<CR>
 nnoremap <silent> <leader>b :BTags<CR>
 
-
 """"""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""
@@ -300,8 +167,6 @@ let g:NERDTreeWinSize=25
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 map <silent> <C-e> :NERDTreeToggle<CR>
-" autocmd vimenter * if @% !~# '.vimrc' && @% !~# '.bash_profile' && @% !~# '.eslintrc.json'| NERDTree | endif  " Open NERDTREE when vim opens
-" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " Close vim if only NERDTree is open
 let g:used_javascript_libs = 'angularjs,react,jquery,underscore,angularuirouter,flux,requirejs,jasmine,chai,d3'
 autocmd BufReadPre *.js let b:javascript_lib_use_jquery = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
@@ -313,12 +178,8 @@ autocmd BufReadPre *.js let b:javascript_lib_use_jasmine = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_chai = 1
 autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
 autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
-
-""""""""""""""""""""""""""""""
-" vim-multiple-cursors
-""""""""""""""""""""""""""""""
-" let g:multi_cursor_next_key="\<C-s>"
-
+" autocmd vimenter * if @% !~# '.vimrc' && @% !~# '.bash_profile' && @% !~# '.eslintrc.json'| NERDTree | endif  " Open NERDTREE when vim opens
+" autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " Close vim if only NERDTree is open
 
 """"""""""""""""""""""""""""""
 " vim airline
@@ -340,34 +201,12 @@ let g:airline#extensions#default#section_truncate_width = {
   \ 'warning': 50,
   \ }
 
-
-""""""""""""""""""""""""""""""
-" vim-easymotion
-""""""""""""""""""""""""""""""
-" map s <Plug>(easymotion-s)
-" map <leader>s <Plug>(easymotion-s2)
-" map <leader>_ <Plug>(easymotion-prefix)
-
-" " match lower & upper case
-" let g:EasyMotion_smartcase = 1
-
-" let g:EasyMotion_use_smartsign_us = 1
-
-" map <leader>l <Plug>(easymotion-lineforward)
-" map <leader>j <Plug>(easymotion-j)
-" map <leader>k <Plug>(easymotion-k)
-" map <leader>h <Plug>(easymotion-linebackward)
-
-" let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
-
-
 """"""""""""""""""""""""""""""
 " vim-fugitive
 """"""""""""""""""""""""""""""
 map <leader>gg :GitGutterToggle<CR>
 map <leader>gs :Gstatus<CR>
 set diffopt+=vertical
-
 
 """"""""""""""""""""""""""""""
 " Deoplete
@@ -438,12 +277,10 @@ let g:SuperTabDefaultCompletionType = '<C-n>'
 let g:instant_markdown_slow = 1
 let g:instant_markdown_autostart = 0
 
-
 """"""""""""""""""""""""""""""
 " vim markdown
 """"""""""""""""""""""""""""""
 let g:vim_markdown_folding_disabled=1
-
 
 """"""""""""""""""""""""""""""
 " undotree
@@ -458,34 +295,20 @@ if has("persistent_undo")
   set undofile
 endif
 
-
 """"""""""""""""""""""""""""""
 " ZoomWin
 """"""""""""""""""""""""""""""
 nnoremap <silent> <leader>z :ZoomWinTabToggle<cr>
 
-
 """"""""""""""""""""""""""""""
-" CtrlSF
+" CtrlSF Seach Project for word
 """"""""""""""""""""""""""""""
-" Prompt CtrlSF using ALT+f
-
 nmap <leader>i <Plug>CtrlSFPrompt
 vmap <leader>i <Plug>CtrlSFVwordPath
 " Toggle CtrlSF result display
 map <leader>ii :CtrlSFToggle<CR>
 
 let g:ctrlsf_indent = 2
-
-
-""""""""""""""""""""""""""""""
-" Vim Orgmode
-""""""""""""""""""""""""""""""
-" let g:org_export_emacs="/usr/local/bin/emacs"
-" let g:org_agenda_files = ['~/Desktop/Notes/daily-notes.org']
-" let g:org_todo_keywords = ['TODO', '|', 'DONE']
-" let g:org_aggressive_conceal = 1
-"
 
 """"""""""""""""""""""""""""""
 " Tmuxline
@@ -517,12 +340,10 @@ let g:jsdoc_input_description=1
 let g:jsdoc_underscore_private=1
 let g:jsdoc_enable_es6=1
 
-
 """"""""""""""""""""""""""""""
 " vim-javascript
 """"""""""""""""""""""""""""""
 let g:javascript_plugin_jsdoc = 1 " Enables syntax highlighting for JSDocs.
-
 
 """"""""""""""""""""""""""""""
 " vim-jsx
@@ -533,8 +354,7 @@ let g:javascript_enable_domhtmlcss = 1 " html tags in js and jsx files?
 """"""""""""""""""""""""""""""
 " ALE
 """"""""""""""""""""""""""""""
-" error sign
-let g:ale_sign_error = 'ㄨ'
+let g:ale_sign_error = 'ㄨ' " error sign
 let g:ale_sign_warning = '>>' " warning sign
 let g:ale_open_list = 0 " this keeps the loclist lint errors from showing up in a vim pane
 let g:ale_lint_on_enter = 1 " 0 disables linting on enter
@@ -567,11 +387,29 @@ function! LinterStatus() abort
 endfunction
 
 set statusline=%{LinterStatus()}
-"
+
 """"""""""""""""""""""""""""""
 " EditorConfig
 """"""""""""""""""""""""""""""
 let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
+
+""""""""""""
+" indentLine
+""""""""""""
+let g:indentLine_color_gui = '#65737E'
+
+""""""""""""""""""
+" Match Tag Always
+""""""""""""""""""
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xhtml' : 1,
+    \ 'xml' : 1,
+    \ 'jinja' : 1,
+    \ 'javascript' : 1,
+    \ 'javascript.jsx' : 1,
+    \}
+nnoremap <leader>j :MtaJumpToOtherTag<cr>
 
 """""""""""
 " SYNTAStIC
@@ -609,19 +447,97 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*', 'scp://.*']
 " autocmd VimEnter * SyntasticToggleMode
 
 """"""""""""""""""""""""""""""
-" indentLine
+" vim-easymotion
 """"""""""""""""""""""""""""""
-let g:indentLine_color_gui = '#65737E'
+" map s <Plug>(easymotion-s)
+" map <leader>s <Plug>(easymotion-s2)
+" map <leader>_ <Plug>(easymotion-prefix)
 
+" " match lower & upper case
+" let g:EasyMotion_smartcase = 1
+
+" let g:EasyMotion_use_smartsign_us = 1
+
+" map <leader>l <Plug>(easymotion-lineforward)
+" map <leader>j <Plug>(easymotion-j)
+" map <leader>k <Plug>(easymotion-k)
+" map <leader>h <Plug>(easymotion-linebackward)
+
+" let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
 
 """"""""""""""""""""""""""""""
+" Vim Orgmode
 """"""""""""""""""""""""""""""
-let g:mta_filetypes = {
-    \ 'html' : 1,
-    \ 'xhtml' : 1,
-    \ 'xml' : 1,
-    \ 'jinja' : 1,
-    \ 'javascript' : 1,
-    \ 'javascript.jsx' : 1,
-    \}
-nnoremap <leader>j :MtaJumpToOtherTag<cr>
+" let g:org_export_emacs="/usr/local/bin/emacs"
+" let g:org_agenda_files = ['~/Desktop/Notes/daily-notes.org']
+" let g:org_todo_keywords = ['TODO', '|', 'DONE']
+" let g:org_aggressive_conceal = 1
+
+""""""""""""""""""""""""""""""
+" Unite.vim
+""""""""""""""""""""""""""""""
+
+" Use the fuzzy matcher for everything
+" call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" call unite#filters#converter_default#use(['converter_relative_word'])
+" call unite#filters#sorter_default#use(['sorter_rank'])
+" call unite#custom#source('file_mru,file_rec,file_rec/async', 'converters', 'converter_relative_word')
+
+" Restrict mru to display files for current project
+" call unite#custom#source(
+"   \ 'file_mru', 'matchers',
+"   \ ['matcher_project_files', 'matcher_fuzzy'])
+
+" call unite#custom#profile('default', 'context', {
+"   \ 'cursor_line_highlight' : 'CursorLine',
+"   \ 'start_insert': 1,
+"   \ 'winheight': 10,
+"   \ 'direction': 'botright',
+"   \ })
+
+" Set up some custom ignores
+" call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+"   \ 'ignore_pattern', join([
+"   \ '\.git/',
+"   \ 'tmp/',
+"   \ '.sass-cache',
+"   \ 'node_modules/',
+"   \ 'bower_components/',
+"   \ 'dist/',
+"   \ '.pyc',
+"   \ ], '\|'))
+
+" let g:unite_data_directory='~/.vim/.cache/unite'
+" let g:unite_source_history_yank_enable=1
+" let g:unite_source_rec_max_cache_files=5000
+" let g:unite_source_file_mru_limit=200
+" let g:unite_source_rec_async_command =
+"       \ ['ag', '--follow', '--nocolor', '--nogroup',
+"       \  '--hidden', '-g', '']
+" let g:unite_source_grep_command = 'ag'
+" let g:unite_source_grep_default_opts = '-s -H --nocolor --nogroup --column'
+" let g:unite_source_grep_recursive_opt = ''
+" let g:unite_prompt='❯ '
+
+" nnoremap <C-f> :<C-u>Unite -buffer-name=files file_mru file_rec/async:!<CR>
+" nnoremap <leader>f :<C-u>Unite -no-split -no-resize -direction=topleft -buffer-name=mru file_mru<CR>
+" nnoremap <leader>y :<C-u>Unite -no-start-insert history/yank<CR>
+" nnoremap <leader>/ :<C-u>Unite grep:.<CR>
+
+" Custom mappings for the unite buffer
+" autocmd FileType unite call s:unite_keymaps()
+
+" function! s:unite_keymaps()
+"   " Enable navigation with control-j and control-k in insert mode
+"   imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+"   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+
+"   " Exit unite with Esc while in insert mode
+"   nmap <buffer> <Esc>   <Plug>(unite_exit)
+"   imap <buffer> <Esc>   <Plug>(unite_exit)
+" endfunction
+
+""""""""""""""""""""""""""""""
+" vim-multiple-cursors
+""""""""""""""""""""""""""""""
+" let g:multi_cursor_next_key="\<C-s>"
