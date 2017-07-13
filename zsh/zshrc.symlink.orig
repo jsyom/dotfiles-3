@@ -13,11 +13,7 @@ DEFAULT_USER=yommy
 # export NVM_LAZY_LOAD=true
 
 # Plugins
-<<<<<<< HEAD
 plugins=(git zsh-nvm osx node npm z zsh-syntax-highlighting)
-=======
-plugins=(git osx npm zsh-nvm z zsh-syntax-highlighting)
->>>>>>> 3592024284f285c462a5a155249767d3792f74e8
 
 source $ZSH/oh-my-zsh.sh
 
