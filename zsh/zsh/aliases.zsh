@@ -14,14 +14,15 @@ alias path="echo $PATH | tr -s ':' '\n'"
 alias finder='open -a Finder .'
 alias textedit='open -a TextEdit'
 alias hi='echo $(whoami)'
+
 # if there is neovim then use it and alias it
-if type nvim > /dev/null 2>&1; then
-  alias nv='nvim'
-  alias v='vim'
-fi
+# if type nvim > /dev/null 2>&1; then
+#   alias nv='nvim'
+#   alias v='vim'
+# fi
 
 # Tower
-alias tower="gittower ."
+# alias tower="gittower ."
 
 # Youtube-dl
 # MP3
