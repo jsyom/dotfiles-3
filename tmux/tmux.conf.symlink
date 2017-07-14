@@ -2,9 +2,11 @@
 # => BASIC SETTINGS
 ##############################
 
-# Fix pbpaste in tmux sessions
-set -g default-shell /usr/local/bin/zsh
-set -g default-command "reattach-to-user-namespace -l /usr/local/bin/zsh"
+# enable pbcopy and pbpaste
+# https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/blob/master/README.md
+set-option -g default-command "reattach-to-user-namespace -l zsh"
+# set -g default-shell /usr/local/bin/zsh
+# set -g default-command "reattach-to-user-namespace -l /usr/local/bin/zsh"
 
 # Unbind default prefix and set it to Ctrl+a cause easier
 unbind C-b
@@ -16,7 +18,7 @@ set -g default-terminal "xterm-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
 # set -g status-utf8 on
 
-set -g history-limit 20000
+set -g history-limit 10000
 
 # Automatically renumber tmux windows
 set -g renumber-windows on
@@ -25,8 +27,8 @@ set -g renumber-windows on
 bind-key a send-prefix
 
 # Activity Monitoring
-setw -g monitor-activity off
-set -g visual-activity off
+setw -g monitor-activity on
+set -g visual-activity on
 
 # Rather than constraining window size to the maximum size of any client
 # connected to the *session*, constrain window size to the maximum size of any
@@ -45,7 +47,7 @@ set -g base-index 1
 setw -g pane-base-index 1
 
 # Don't rename my windows
-set-option -g allow-rename off
+# set-option -g allow-rename off
 
 
 ##############################
@@ -133,12 +135,39 @@ bind C-a last-window
 # => Status Bar
 ##############################
 set -g status on
+# set refresh interval for status bar
+set -g status-interval 30
 
-set -g status-bg '#586e75'
-set -g status-fg '#eee8d5'
-set -g pane-border-style fg='#586e75'
-set -g pane-active-border-style fg='#586e75'
-set -g pane-active-border-style bg=default
+# status position on bottom
+set-option -g status-position bottom
+
+# center the status bar
+set -g status-justify centre
+
+# show session, window, pane in left status bar
+set -g status-left-length 40
+set -g status-left '#[fg=red]#S#[fg=red] #I:#P#[default]'
+
+# show hostname, date, time, and battery in right status bar
+set-option -g status-right '#[fg=red]#H#[default] %I:%M\
+ #[fg=red]#(battery discharging)#[default]#(battery charging)'
+
+##############################
+# => Colors
+##############################
+# color status bar
+set -g status-bg default
+set -g status-fg red
+
+# highlight current window
+set-window-option -g window-status-current-fg white
+set-window-option -g window-status-current-bg red
+# set -g status-bg '#586e75'
+# set -g status-fg '#eee8d5'
+# set -g pane-border-style fg='#586e75'
+# set -g pane-active-border-style fg='#586e75'
+# set -g pane-active-border-style bg=default
+
 ##############################
 # => PLUGINS
 ##############################

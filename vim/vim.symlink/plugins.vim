@@ -86,7 +86,7 @@ Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'tpope/vim-fugitive' " Git wrapper
 Plug 'airblade/vim-gitgutter' " Shows a git diff in the gutter
-Plug 'Valloric/MatchTagAlways' " Color scheme
+Plug 'Valloric/MatchTagAlways' " XML tag highlight and jump
 Plug 'jiangmiao/auto-pairs' " Insert or delete brackets, parens, quotes in pair
 Plug 'troydm/zoomwintab.vim' " Zoom in/out of windows
 Plug 'ervandew/supertab'
@@ -315,14 +315,26 @@ let g:ctrlsf_indent = 2
 """"""""""""""""""""""""""""""
 let g:tmuxline_preset = {
   \"a"    : "#S",
-  \"b"    : "#(ifconfig en0 | grep 'inet ' | awk '{print $2}')",
-  \"c"    : "",
-  \"win"  : "#I  #W",
-  \"cwin" : "#I  #W",
+  \"b"    : "#I:#P",
+  \"c"    : "#(ifconfig en0 | grep 'inet ' | awk '{print $2}')",
+  \"d"    : "",
+  \"win"  : "#I: #W",
+  \"cwin" : "#I: #W",
   \"x"    : ["♫ #(source ~/.tmux/current-pianobar-song.sh)"],
   \"y"    : ["%a", "%b %d", "%R"],
   \"z"    : "#h",
-  \'options' : {'status-justify' : 'left'}}
+  \'options' : {'status-justify' : 'centre'}}
+
+" let g:tmuxline_preset = {
+"   \"a"    : "#S",
+"   \"b"    : "#(ifconfig en0 | grep 'inet ' | awk '{print $2}')",
+"   \"c"    : "",
+"   \"win"  : "#I  #W",
+"   \"cwin" : "#I  #W",
+"   \"x"    : ["♫ #(source ~/.tmux/current-pianobar-song.sh)"],
+"   \"y"    : ["%a", "%b %d", "%R"],
+"   \"z"    : "#h",
+"   \'options' : {'status-justify' : 'left'}}
 
 let g:tmuxline_separators = {
   \ 'left' : '',
@@ -388,6 +400,9 @@ endfunction
 
 set statusline=%{LinterStatus()}
 
+" ALE gutter sign colors
+hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ff0000 guibg=#343d46
+hi ALEWarningSign ctermfg=221 ctermbg=237 guifg=#fac863 guibg=#343d46
 """"""""""""""""""""""""""""""
 " EditorConfig
 """"""""""""""""""""""""""""""
