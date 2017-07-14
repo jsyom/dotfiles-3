@@ -14,7 +14,7 @@
   path = iterm/oceanic-next-iterm
   url = https://github.com/mhartington/oceanic-next-iterm.git
 
-[submodule "zsh/zsh_custom.symlink/plugins/zsh-nvm"]
-  path = zsh/zsh_custom.symlink/plugins/zsh-nvm
-  url = https://github.com/lukechilds/zsh-nvm.git
+# [submodule "zsh/zsh_custom.symlink/plugins/zsh-nvm"]
+#   path = zsh/zsh_custom.symlink/plugins/zsh-nvm
+#   url = https://github.com/lukechilds/zsh-nvm.git
   # url = https://github.com/zsh-users/zsh-nvm.git
