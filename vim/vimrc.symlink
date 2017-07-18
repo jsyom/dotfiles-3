@@ -567,5 +567,3 @@ call NERDTreeHighlightFile('svg', 178, 'none', '#CDA109')
 call NERDTreeHighlightFile('gif', 36, 'none', '#15A274')
 call NERDTreeHighlightFile('jpg', 36, 'none', '#15A274')
 call NERDTreeHighlightFile('png', 36, 'none', '#15A274')
-
-

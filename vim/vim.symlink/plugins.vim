@@ -1,3 +1,6 @@
+if &compatible
+  set nocompatible
+end
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => PLUGINS
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -49,12 +52,9 @@ Plug 'fleischie/vim-styled-components', { 'for': ['javascript', 'javascript.jsx'
 Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['javascript', 'javascript.jsx'] }
 
 if has('nvim')
-  " Asynchronous completion for neovim
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'  }
-  " Tern-based JavaScript editing support
   Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern', 'for': ['javascript', 'javascript.jsx'] }
 else
-  " Code completion
   Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
 endif
 
@@ -163,21 +163,21 @@ nnoremap <silent> <leader>b :BTags<CR>
 let g:NERDTreeWinPos = "left"
 let g:NERDTreeShowHidden=1
 let NERDTreeIgnore = ['\.js.map$', '\.DS_Store$']
-let g:NERDTreeWinSize=25
+let g:NERDTreeWinSize=30
 let g:NERDTreeDirArrowExpandable = '▸'
 let g:NERDTreeDirArrowCollapsible = '▾'
 map <silent> <C-e> :NERDTreeToggle<CR>
 let g:used_javascript_libs = 'angularjs,react,jquery,underscore,angularuirouter,flux,requirejs,jasmine,chai,d3'
-autocmd BufReadPre *.js let b:javascript_lib_use_jquery = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_backbone = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_react = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_flux = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_requirejs = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_jasmine = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_chai = 1
-autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
-autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
+" autocmd BufReadPre *.js let b:javascript_lib_use_jquery = 1
+" autocmd BufReadPre *.js let b:javascript_lib_use_underscore = 1
+" autocmd BufReadPre *.js let b:javascript_lib_use_backbone = 1
+" autocmd BufReadPre *.js let b:javascript_lib_use_react = 1
+" autocmd BufReadPre *.js let b:javascript_lib_use_flux = 1
+" autocmd BufReadPre *.js let b:javascript_lib_use_requirejs = 1
+" autocmd BufReadPre *.js let b:javascript_lib_use_jasmine = 1
+" autocmd BufReadPre *.js let b:javascript_lib_use_chai = 1
+" autocmd BufReadPre *.js let b:javascript_lib_use_prelude = 0
+" autocmd BufReadPre *.js let b:javascript_lib_use_angularjs = 0
 " autocmd vimenter * if @% !~# '.vimrc' && @% !~# '.bash_profile' && @% !~# '.eslintrc.json'| NERDTree | endif  " Open NERDTREE when vim opens
 " autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif " Close vim if only NERDTree is open
 
@@ -259,7 +259,9 @@ if has('nvim')
   autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
 endif
 
-
+let g:tern_request_timeout = 1
+let g:tern_show_argument_hints = 'on_hold'
+let g:tern_show_signature_in_pum = 0
 """"""""""""""""""""""""""""""
 " Ultisnips
 """"""""""""""""""""""""""""""
@@ -401,8 +403,8 @@ endfunction
 set statusline=%{LinterStatus()}
 
 " ALE gutter sign colors
-hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ff0000 guibg=#343d46
-hi ALEWarningSign ctermfg=221 ctermbg=237 guifg=#fac863 guibg=#343d46
+" hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ff0000 guibg=#343d46
+" hi ALEWarningSign ctermfg=221 ctermbg=237 guifg=#fac863 guibg=#343d46
 """"""""""""""""""""""""""""""
 " EditorConfig
 """"""""""""""""""""""""""""""
