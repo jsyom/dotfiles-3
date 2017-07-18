@@ -81,3 +81,5 @@
 [user]
 	name = John Yom
 	email = johnyom87@gmail.com
+[credential]
+	helper = osxkeychain
