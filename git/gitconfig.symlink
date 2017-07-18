@@ -60,8 +60,8 @@
 
 [diff]
 	# Detect copies as well as renames
-	renames = copies
 	tool = vimdiff
+	renames = copies
 
 [help]
 	# Automatically correct and execute mistyped commands
@@ -71,6 +71,7 @@
 
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
+	tool = vimdiff
 
 [push]
 	default = simple
