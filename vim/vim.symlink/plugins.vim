@@ -13,6 +13,7 @@ Plug 'Shougo/neomru.vim' " Most Recently Used
 """"""""""""""""""
 " Colors and Syntax
 """"""""""""""""""
+Plug 'rakr/vim-one'
 Plug 'tyrannicaltoucan/vim-quantum'
 Plug 'flazz/vim-colorschemes'
 Plug 'ap/vim-css-color' " Preview colors in source code
@@ -49,13 +50,13 @@ Plug 'fleischie/vim-styled-components', { 'for': ['javascript', 'javascript.jsx'
 """"""""""""""""""""""""""""""""
 " Tern Deoplete and YouComple Me
 """"""""""""""""""""""""""""""""
-Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['javascript', 'javascript.jsx'] }
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins'  }
   Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern', 'for': ['javascript', 'javascript.jsx'] }
 else
-  Plug 'Valloric/YouCompleteMe', { 'do': './install.py' }
+  " Plug 'ternjs/tern_for_vim', {'do': 'npm install', 'for': ['javascript', 'javascript.jsx'] }
+  Plug 'Valloric/YouCompleteMe', { 'do': './install.py --tern-completer' }
 endif
 
 """"""""""""""""""
@@ -253,26 +254,27 @@ if has('nvim')
   "\<C-n>" :
   ""\<TAB>"
 
-  set completeopt-=preview
+  " set completeopt-=preview
 
   " Automatically close preview window after autocompletion
   autocmd CompleteDone * if pumvisible() == 0 | pclose | endif
 endif
 
-let g:tern_request_timeout = 1
-let g:tern_show_argument_hints = 'on_hold'
-let g:tern_show_signature_in_pum = 0
+" let g:tern_request_timeout = 1
+" let g:tern_show_argument_hints = 'on_hold'
+" let g:tern_show_signature_in_pum = 0
 """"""""""""""""""""""""""""""
 " Ultisnips
 """"""""""""""""""""""""""""""
 " Trigger configuration
 let g:UltiSnipsExpandTrigger="<C-l>"
-" let g:UltiSnipsJumpForwardTrigger="<tab>"
-" let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " let g:UltiSnipsEditSplit="vertical"
 let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:SuperTabDefaultCompletionType = '<C-n>'
-
+" let g:ycm_key_list_select_completion   = ['<C-j>', '<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-k>', '<C-p>', '<Up>']
 """"""""""""""""""""""""""""""
 " vim-instant-markdown
 """"""""""""""""""""""""""""""
@@ -403,8 +405,8 @@ endfunction
 set statusline=%{LinterStatus()}
 
 " ALE gutter sign colors
-" hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ff0000 guibg=#343d46
-" hi ALEWarningSign ctermfg=221 ctermbg=237 guifg=#fac863 guibg=#343d46
+hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ff0000 guibg=#343d46
+hi ALEWarningSign ctermfg=221 ctermbg=237 guifg=#fac863 guibg=#343d46
 """"""""""""""""""""""""""""""
 " EditorConfig
 """"""""""""""""""""""""""""""
@@ -427,132 +429,6 @@ let g:mta_filetypes = {
     \ 'javascript.jsx' : 1,
     \}
 nnoremap <leader>j :MtaJumpToOtherTag<cr>
-
-"""""""""""
-" SYNTAStIC
-"""""""""""" Syntastic and ESLint
-" nnoremap <leader>, :SyntasticToggle<cr>
-" nnoremap <leader>,, :SyntasticCheck<cr>
-" set statusline+=%#warningmsg#
-" set statusline+=%{SyntasticStatuslineFlag()}
-" set statusline+=%*
-"
-" let g:syntastic_mode_map = { 'mode': 'active', 'active_filetypes': ['javascript'], 'passive_filetypes': [] }
-" let g:syntastic_always_populate_loc_list = 1
-" let g:syntastic_loc_list_height = 5
-" let g:syntastic_auto_loc_list = 0
-" let g:syntastic_check_on_open = 1
-" let g:syntastic_check_on_wq = 1
-" let g:syntastic_javascript_checkers = ['eslint']
-"
-" let g:syntastic_error_symbol = '❌'
-" let g:syntastic_style_error_symbol = '⁉️'
-" let g:syntastic_warning_symbol = '⚠️'
-" let g:syntastic_style_warning_symbol = '💩'
-"
-" " let g:syntastic_error_symbol = 'ㄨ'
-" " let g:syntastic_style_error_symbol = 'ㄨ'
-" " let g:syntastic_warning_symbol = 'ㄨ'
-" " let g:syntastic_style_warning_symbol = 'ㄨ'
-"
-" highlight link SyntasticErrorSign SignColumn
-" highlight link SyntasticWarningSign SignColumn
-" highlight link SyntasticStyleErrorSign SignColumn
-" highlight link SyntasticStyleWarningSign SignColumn
-"
-" " syntastic starts in passive mode
-" autocmd VimEnter * SyntasticToggleMode
-
-""""""""""""""""""""""""""""""
-" vim-easymotion
-""""""""""""""""""""""""""""""
-" map s <Plug>(easymotion-s)
-" map <leader>s <Plug>(easymotion-s2)
-" map <leader>_ <Plug>(easymotion-prefix)
-
-" " match lower & upper case
-" let g:EasyMotion_smartcase = 1
-
-" let g:EasyMotion_use_smartsign_us = 1
-
-" map <leader>l <Plug>(easymotion-lineforward)
-" map <leader>j <Plug>(easymotion-j)
-" map <leader>k <Plug>(easymotion-k)
-" map <leader>h <Plug>(easymotion-linebackward)
-
-" let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
-
-""""""""""""""""""""""""""""""
-" Vim Orgmode
-""""""""""""""""""""""""""""""
-" let g:org_export_emacs="/usr/local/bin/emacs"
-" let g:org_agenda_files = ['~/Desktop/Notes/daily-notes.org']
-" let g:org_todo_keywords = ['TODO', '|', 'DONE']
-" let g:org_aggressive_conceal = 1
-
-""""""""""""""""""""""""""""""
-" Unite.vim
-""""""""""""""""""""""""""""""
-
-" Use the fuzzy matcher for everything
-" call unite#filters#matcher_default#use(['matcher_fuzzy'])
-" call unite#filters#converter_default#use(['converter_relative_word'])
-" call unite#filters#sorter_default#use(['sorter_rank'])
-" call unite#custom#source('file_mru,file_rec,file_rec/async', 'converters', 'converter_relative_word')
-
-" Restrict mru to display files for current project
-" call unite#custom#source(
-"   \ 'file_mru', 'matchers',
-"   \ ['matcher_project_files', 'matcher_fuzzy'])
-
-" call unite#custom#profile('default', 'context', {
-"   \ 'cursor_line_highlight' : 'CursorLine',
-"   \ 'start_insert': 1,
-"   \ 'winheight': 10,
-"   \ 'direction': 'botright',
-"   \ })
-
-" Set up some custom ignores
-" call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-"   \ 'ignore_pattern', join([
-"   \ '\.git/',
-"   \ 'tmp/',
-"   \ '.sass-cache',
-"   \ 'node_modules/',
-"   \ 'bower_components/',
-"   \ 'dist/',
-"   \ '.pyc',
-"   \ ], '\|'))
-
-" let g:unite_data_directory='~/.vim/.cache/unite'
-" let g:unite_source_history_yank_enable=1
-" let g:unite_source_rec_max_cache_files=5000
-" let g:unite_source_file_mru_limit=200
-" let g:unite_source_rec_async_command =
-"       \ ['ag', '--follow', '--nocolor', '--nogroup',
-"       \  '--hidden', '-g', '']
-" let g:unite_source_grep_command = 'ag'
-" let g:unite_source_grep_default_opts = '-s -H --nocolor --nogroup --column'
-" let g:unite_source_grep_recursive_opt = ''
-" let g:unite_prompt='❯ '
-
-" nnoremap <C-f> :<C-u>Unite -buffer-name=files file_mru file_rec/async:!<CR>
-" nnoremap <leader>f :<C-u>Unite -no-split -no-resize -direction=topleft -buffer-name=mru file_mru<CR>
-" nnoremap <leader>y :<C-u>Unite -no-start-insert history/yank<CR>
-" nnoremap <leader>/ :<C-u>Unite grep:.<CR>
-
-" Custom mappings for the unite buffer
-" autocmd FileType unite call s:unite_keymaps()
-
-" function! s:unite_keymaps()
-"   " Enable navigation with control-j and control-k in insert mode
-"   imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-"   imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-
-"   " Exit unite with Esc while in insert mode
-"   nmap <buffer> <Esc>   <Plug>(unite_exit)
-"   imap <buffer> <Esc>   <Plug>(unite_exit)
-" endfunction
 
 """"""""""""""""""""""""""""""
 " vim-multiple-cursors

@@ -2,6 +2,7 @@
 alias reload!='source ~/.zshrc'
 
 # standard terminal commmands
+alias cl='clear'
 alias lh='ls -a'
 # Switch vim to neovim
 # alias v="nvim"
@@ -17,12 +18,9 @@ alias hi='echo $(whoami)'
 
 # if there is neovim then use it and alias it
 if type nvim > /dev/null 2>&1; then
-  alias nv='nvim'
-  alias v='vim'
+  # alias nv='nvim'
+  alias v='nvim'
 fi
-
-# Tower
-# alias tower="gittower ."
 
 # Youtube-dl
 # MP3
@@ -45,8 +43,8 @@ alias hideHidden="defaults write com.apple.finder AppleShowAllFiles NO; killall 
 alias hidedesktop="defaults write com.apple.finder CreateDesktop -bool false && killall Finder"
 alias showdesktop="defaults write com.apple.finder CreateDesktop -bool true && killall Finder"
 
-# Start meteor with settings
-alias meteors="meteor --settings ./config/settings.json"
+# # Start meteor with settings
+# alias meteors="meteor --settings ./config/settings.json"
 
 # File size
 alias fs="stat -f \"%z bytes\""
