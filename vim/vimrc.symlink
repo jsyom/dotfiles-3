@@ -5,120 +5,117 @@ set nocompatible
 let mapleader = "\<Space>"
 let g:mapleader = "\<Space>"
 
-" if (empty($TMUX))
-"   if (has("nvim"))
-"   "For Neovim 0.1.3 and 0.1.4 < https://github.com/neovim/neovim/pull/2198 >
-"   let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-"   endif
-"   "For Neovim > 0.1.5 and Vim > patch 7.4.1799 < https://github.com/vim/vim/commit/61be73bb0f965a895bfb064ea3e55476ac175162 >
-"   "Based on Vim patch 7.4.1770 (`guicolors` option) < https://github.com/vim/vim/commit/8a633e3427b47286869aa4b96f2bfc1fe65b25cd >
-"   " < https://github.com/neovim/neovim/wiki/Following-HEAD#20160511 >
-"   if (has("termguicolors"))
-"     set termguicolors
-"   endif
-" endif
-
+if has ('autocmd')
+  autocmd!
+endif
 if (has("termguicolors"))
   set termguicolors
+  set t_ut=
 endif
-
-let g:ale_emit_conflict_warnings = 0
-
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" => LOAD PLUGINS
-""""""""""""""""""""""""""""""""""""""""""""""""""
-source ~/.vim/plugins.vim
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => BASIC SETTINGS
 """"""""""""""""""""""""""""""""""""""""""""""""""
-set clipboard=unnamed " allow copy to system clipboard for copy paste
+" set clipboard=unnamed " allow copy to system clipboard for copy paste
+if has('unnamedplus')
+  set clipboard=unnamedplus,unnamed
+else
+  " Vim now also uses the selection system clipboard for default yank/paste.
+  set clipboard+=unnamed
+endif
 set number " Show current line number
+" Turn backup off
+set nobackup
+set nowritebackup
+set nowb
 set relativenumber " Show relative line numbers
 set cursorline " Highlight cursor current line
 set history=700 " Set how many lines of history VIM has to remember
 set backspace=2
+set noswapfile
 set showcmd " display incomplete commands
 set autowrite " Automatically :write before running commmands
+set autoread " set to auto read when a file is changed from the outside
+
 " Trigger autoread when changing buffers or coming back to vim in terminal.
 au FocusGained,BufEnter * :silent! !
 
-" Enable filetype plugins
-" filetype plugin indent on
-filetype plugin on
-filetype indent on
-set autoread " set to auto read when a file is changed from the outside
-
 " Fast editing of vimrc
 map <leader>e :e! ~/.vimrc<cr>
+set matchpairs+=<:> " can tab around brackets
+let g:html_indent_tags = 'li\|p'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" => COLORS AND FONTS
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" Enable syntax highlighting
-syntax enable
-set background=dark
 
-" Theme, Colorscheme, & Font
-if has("gui_running")
-  colorscheme Tomorrow-Night
-  set guifont=Monaco:h14
-  set linespace=2
-  set noantialias
-else
-  try
-    colorscheme OceanicNext
-    " colorscheme jellybeans
-  catch
-  endtry
-endif
 
-function! ReverseBackground()
-  if &background=="light"
-    set background=dark
-    colorscheme OceanicNext
-    " colorscheme jellybeans
-  else
-    set background=light
-    colorscheme solarized
-    execute 'AirlineTheme solarized'
-  endif
-endfunction
-command! Invbg call ReverseBackground()
+" This changes the default display of tab and CR chars in list mode
+set list listchars=nbsp:·
+set listchars=tab:▸\ ,trail:·,precedes:←,extends:→ ",eol:¬,
+set so=7 " Set 7 lines to the cursor - when moving vertically using j/k
+set path=$PWD/**
+" set path+=**
+" set autochdir
+"
+set ruler "Always show current position
+set cmdheight=1 " Height of the command bar
+set hid " A buffer becomes hidden when it is abandoned
+set ignorecase " Ignore case when searching
+set smartcase " When searching try to be smart about cases
+set hlsearch " Highlight search results
+set incsearch " Makes search act like search in modern browsers
+set lazyredraw " Don't redraw while executing macros (good performance config)
+set magic " For regular expressions turn magic on
+set showmatch " Show matching brackets when text indicator is over them
+set mat=2 " How many tenths of a second to blink when matching brackets
+set noerrorbells
+set novisualbell
+set t_vb=
+set tm=500
+set foldmethod=indent
+set foldnestmax=20
+set nofoldenable
+" set foldlevelstart=20
 
-" Set extra options when running in GUI mode
-if has("gui_running")
-  set guioptions-=T
-  set guioptions-=e
-  set t_Co=256
-  set guitablabel=%M\ %t
-endif
+" Disable scrollbars (real hackers don't use scrollbars for navigation!)
+set guioptions-=r
+set guioptions-=R
+set guioptions-=l
+set guioptions-=L
+
+set expandtab
+set smarttab
+set shiftwidth=2
+set tabstop=2
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>,h,l
+
+set ai "Auto indent
+set si "Smart indent
+set wrap "Wrap lines
 
 set encoding=utf8 " Set utf8 as standard encoding and en_US as the standard language
 set ffs=unix,dos,mac " Use Unix as the standard file type
 
-""""""""""""""""""""""""""""""""""""""""""""""""""
-" => USER INTERFACE
-""""""""""""""""""""""""""""""""""""""""""""""""""
-"HTML Editing
-" set matchpairs+=<:>
+" cursor toggler
+" if !has('nvim')
+"   let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+"   let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+"   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+"
+"   " cursor toggle for tmux?
+"   let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+"   let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
+"   let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" endif
 
-" Treat <li> and <p> tags like the block tags they are
-let g:html_indent_tags = 'li\|p'
-
-" Display extra whitespace
-set list listchars=tab:»·,trail:·,nbsp:·
-
-" Set 7 lines to the cursor - when moving vertically using j/k
-set so=7
-
-" set path+=**
-set path=$PWD/**
-
-" Turn on the Wild menu
-set wildmenu
+" When you type the first tab, it will complete as much as possible, the second
+" tab hit will provide a list, the third and subsequent tabs will cycle through
+" completion options so you can complete the file without further keys
 set wildmode=list:longest,full
-
+" set wildmode=longest,list,full
+set wildmenu " completion with menu
+" none of these should be word dividers, so make them not be
+set iskeyword+=_,$,@,%,#
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 " set wildignore+=*.DS_STORE,*.db,node_modules/**,*.jpg,*.png,*.gif
@@ -128,68 +125,97 @@ else
   set wildignore+=.git\*,.hg\*,.svn\*
 endif
 
-set ruler "Always show current position
-set cmdheight=2 " Height of the command bar
-set hid " A buffer becomes hidden when it is abandoned
-
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
 " In many terminal emulators the mouse works just fine, thus enable it.
 if has('mouse')
   set ttyfast
   set mouse=a
 endif
 
-set ignorecase " Ignore case when searching
-set smartcase " When searching try to be smart about cases
-set hlsearch " Highlight search results
-set incsearch " Makes search act like search in modern browsers
-set lazyredraw " Don't redraw while executing macros (good performance config)
-set magic " For regular expressions turn magic on
-set showmatch " Show matching brackets when text indicator is over them
-set mat=2 " How many tenths of a second to blink when matching brackets
+" this makes sure that shell scripts are highlighted
+" as bash scripts and not sh scripts
+let g:is_posix = 1
 
-" No annoying sound on errors
-set noerrorbells
-set novisualbell
-set t_vb=
-set tm=500
+" if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
+"   syntax on
+" endif
 
-" Set up code folding
-set foldmethod=indent
-set foldnestmax=20
-" set foldlevelstart=20
-set nofoldenable
+if (&t_Co > 2 || has("gui_running")) && has("syntax")
+   syntax on  " turn syntax highlighting on, when terminal has colors or in GUI
+endif
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => LOAD PLUGINS
+""""""""""""""""""""""""""""""""""""""""""""""""""
+source ~/.vim/plugins.vim
 
-" Disable scrollbars (real hackers don't use scrollbars for navigation!)
-set guioptions-=r
-set guioptions-=R
-set guioptions-=l
-set guioptions-=L
+" -- file type detection -------------------------------------------------------
+filetype on         " /!\ doesn't play well with compatible mode
+filetype plugin on  " trigger file type specific plugins
+filetype indent on  " indent based on file type syntax
 
-" Set highlight cursor line
-hi CursorLine cterm=none ctermbg=8 ctermfg=none
+" filetype plugin indent on
+syntax enable
+set background=dark
 
-" Style verticle split seporator
-hi VertSplit cterm=none ctermbg=none ctermfg=23
+" Theme, Colorscheme, & Font
+if has("gui_running")
+  " colorscheme Tomorrow-Night
+  " colorscheme OceanicNext
+  colorscheme luna
+  " set guifont=Source\ Code\ Pro\ for\ Powerline:h13
+  set guifont=Sauce\ Code\ Pro\ Nerd\ Font\ Complete:h12
+  " set guifont=Consolas\ for\ Powerline:h13
+  set linespace=2
+  " set noantialias
+else
+  try
+    let g:oceanic_next_terminal_bold = 1
+    let g:oceanic_next_terminal_italic = 1
+    colorscheme OceanicNext
+    " colorscheme luna
+    " set guicursor=
+  catch
+  endtry
+endif
 
-" Change selected text bg color
-hi Visual cterm=none ctermbg=11 ctermfg=none
+function! ReverseBackground()
+  if &background=="light"
+    set background=dark
+    colorscheme OceanicNext
+    " colorscheme luna
+  else
+    set background=light
+    colorscheme solarized
+    execute 'AirlineTheme solarized'
+  endif
+endfunction
+command! Invbg call ReverseBackground()
+"
+" Set extra options when running in GUI mode
+if has("gui_running")
+  set guioptions-=T
+  set guioptions-=e
+  set t_Co=256
+  set guitablabel=%M\ %t
+endif
 
-" Set folded highlight color
-hi Folded ctermbg=10 ctermfg=10
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" => USER INTERFACE
+""""""""""""""""""""""""""""""""""""""""""""""""""
+set textwidth=80
+set colorcolumn=+1
+" Linebreak on 500 characters
+set lbr
+set tw=500
+" autocmd BufRead,BufNewFile *.md setlocal textwidth=80
+autocmd BufRead,BufNewFile * setlocal textwidth=80
+
 
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => FILES, BACKUPS, AND UNDO
 """"""""""""""""""""""""""""""""""""""""""""""""""
-
-" Turn backup off
 set nobackup
 set nowb
 set noswapfile
-
 " Turn on presistent undo
 " means that you can undo even when you close a buffer/Vim
 try
@@ -202,27 +228,6 @@ endtry
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => TEXT, TAB, AND INDENT RELATED
 """"""""""""""""""""""""""""""""""""""""""""""""""
-
-" Use spaces instead of tabs
-set expandtab
-
-" Be smart when using tabs
-set smarttab
-
-" Number of spaces to use for indent and unindent
-set shiftwidth=2
-" Visible width of tabs
-set tabstop=2
-
-" Linebreak on 500 characters
-set lbr
-set tw=500
-autocmd BufRead,BufNewFile *.md setlocal textwidth=80
-
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lines
-
 " Strip trailing spaces on save
 autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
 
@@ -235,6 +240,14 @@ nnoremap <CR> o<Esc>
 autocmd CmdwinEnter * nnoremap <CR> <CR>
 autocmd BufReadPost quickfix nnoremap <CR> <CR>
 
+" automatically rebalance windows on vim resize
+" autocmd VimResized * :wincmd =
+
+"update dir to current file
+" autocmd BufEnter * silent! cd %:p:h
+" autocmd BufEnter * silent! lcd %:p:h
+" autocmd InsertEnter * let save_cwd = getcwd() | set autochdir
+" autocmd InsertLeave * set noautochdir | execute 'cd' fnameescape(save_cwd)
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => VISUAL MODE RELATED
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -249,14 +262,8 @@ vnoremap <silent> # :call VisualSelection('b', '')<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " Treat long lines as break lines (useful when moving around in them).
 " Store relative line number jumps in the jumplist.
-" noremap <expr> j v:count > 1 ? 'm`' . v:count . 'j' : 'gj'
-" noremap <expr> k v:count > 1 ? 'm`' . v:count . 'k' : 'gk'
-nnoremap j gj
-nnoremap k gk
-
-" Use gj gk to go quicker
-" noremap gj 5gj
-" noremap gk 5gk
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
 
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
@@ -283,10 +290,10 @@ endif
 
 
 " Map Alt-[h,j,k,l] for resizing a window split
-nnoremap <silent> <M-h> :vertical resize -2<CR>
-nnoremap <silent> <M-j> :resize -2<CR>
-nnoremap <silent> <M-k> :resize +2<CR>
-nnoremap <silent> <M-l> :vertical resize +2<CR>
+nnoremap <silent> <left> :vertical resize -1<CR>
+nnoremap <silent> <down> :resize -1<CR>
+nnoremap <silent> <up> :resize +1<CR>
+nnoremap <silent> <right> :vertical resize +1<CR>
 
 " Close the current buffer
 " map <leader>bd :Bclose<cr>
@@ -308,7 +315,8 @@ autocmd BufReadPost *
   \ endif
 " Remember info about open buffers on close
 set viminfo^=%
-
+" Switch to the directory of the open buffer
+noremap <leader>cd :cd %:p:h<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => STATUS LINE
 """"""""""""""""""""""""""""""""""""""""""""""""""
@@ -324,7 +332,6 @@ set showtabline=1
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => SPELLING CHECK
 """"""""""""""""""""""""""""""""""""""""""""""""""
-
 hi SpellBad cterm=underline,bold ctermfg=red gui=underline,bold guifg=red
 " Toggle and untoggle spell checking
 map <leader>sc :setlocal spell!<cr>
@@ -338,7 +345,6 @@ map <leader>s? z=
 """"""""""""""""""""""""""""""""""""""""""""""""""
 " => MAPPINGS
 """"""""""""""""""""""""""""""""""""""""""""""""""
-
 " Exit insert mode with `jk`
 inoremap jk <ESC>`^
 nnoremap ; :
@@ -376,7 +382,7 @@ endif
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
 
-" Set Syntax
+" " Set Syntax
 map <leader>sy :set syntax=
 
 " Quick quit
@@ -387,7 +393,8 @@ map <leader>r :e<cr>
 
 " Quick Open Notes
 " Directory to notes folder
-let g:notes_folder = '~/Desktop/Notes/'
+" let g:notes_folder = '~/Desktop/Notes/'
+let g:notes_folder = '~/Notes/'
 " Project specific notes
 let g:notes = g:notes_folder . 'Projects/' . fnamemodify(getcwd(), ':t') . '.md'
 let g:note_size = 15
@@ -439,19 +446,6 @@ nnoremap <silent> K :let stay_star_view = winsaveview()<cr>*:call winrestview(st
 " map <S-Tab> %
 nnoremap <tab> %
 vnoremap <tab> %
-
-" cursor toggler
-if !has('nvim')
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_SR = "\<Esc>]50;CursorShape=2\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-
-  " cursor toggle for tmux?
-  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-  let &t_SR = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=2\x7\<Esc>\\"
-  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-endif
-
 
 nnoremap <expr> <UP> len(getline(line('.')-1)) > 0 ? '{+' : '{-'
 nnoremap <expr> <DOWN> len(getline(line('.')+1)) > 0 ? '}-' : '}+'
@@ -537,8 +531,6 @@ endfun
 " Tab completion
  " will insert tab at beginning of line,
  " will use completion if not at beginning
- " set wildmode=list:longest,list:full
- " set wildmode=list:longest,list
  function! InsertTabWrapper()
      let col = col('.') - 1
      if !col || getline('.')[col - 1] !~ '\k'
@@ -550,6 +542,23 @@ endfun
  inoremap <Tab> <c-r>=InsertTabWrapper()<cr>
  inoremap <S-Tab> <c-n>
 
+" closing tags for xml
+hi xmlTagN ctermfg=203 guifg=#ec5f67
+
+" Set highlight cursor line
+hi CursorLine cterm=none ctermbg=8 ctermfg=none
+
+" Style verticle split seporator
+hi VertSplit cterm=none ctermbg=none ctermfg=23
+
+" Change selected text bg color
+hi Visual cterm=none ctermbg=8 ctermfg=none
+" hi Visual cterm=none ctermbg=11 ctermfg=none
+
+" Set folded highlight color
+hi Folded ctermbg=10 ctermfg=10
+hi def link jsObjectKey Function
+" hi def link js
 
 " Abbreviations - fix common typos
 iabbrev funcoitn function
@@ -584,3 +593,13 @@ call NERDTreeHighlightFile('svg', 178, 'none', '#CDA109')
 call NERDTreeHighlightFile('gif', 36, 'none', '#15A274')
 call NERDTreeHighlightFile('jpg', 36, 'none', '#15A274')
 call NERDTreeHighlightFile('png', 36, 'none', '#15A274')
+
+
+""""""""""""""""""""""""""""""
+" vim-multiple-cursors
+""""""""""""""""""""""""""""""
+" let g:multi_cursor_next_key="\<C-s>"
+
+
+
+

@@ -1,7 +1,22 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
+export PATH="/usr/local/bin:/usr/local/sbin:~/bin:$PATH"
 export PATH="/usr/local/bin:$PATH"
 # Update PATH variable to access yarn binaries
 export PATH="$PATH:`yarn global bin`"
+# export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+# platform=$(uname)
+#
+# if [[ $platform == *Darwin* ]];
+# then
+#   # This makes our PATH visible to GUI apps
+#   launchctl setenv PATH $PATH
+#
+#   # Brew paths over system paths
+#   export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+#
+#   # NPM binaries on PATH as well
+#   export PATH=/usr/local/share/npm/bin:$PATH
+# fi
 
 # Language Support
 export LC_CTYPE=en_US.UTF-8
@@ -12,16 +27,9 @@ export CLICOLOR=1
 export LSCOLORS=ExFxBxDxCxegedabagacad
 export TERM=xterm-256color
 
-# neovim as default
-# export EDITOR="nvim"
-# vim as default
 export EDITOR="nvim"
 # export HOMEBREW_CASK_OPTS="--appdir=~/Applications"
 
-# Load NVM
-# export NVM_LAZY_LOAD=true
-# export NVM_DIR="$HOME/.nvm"
-# [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh" # This loads nvm
 
 # Load fzf
 # export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git -f -g "" -u"

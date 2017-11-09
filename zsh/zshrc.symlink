@@ -2,18 +2,13 @@ export DOTFILES=$HOME/.dotfiles
 # Path to oh-my-zsh configuration
 export ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.zsh_custom
-POWERLEVEL9K_MODE='awesome-fontconfig'
-# POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-# POWERLEVEL9K_PROMPT_ADD_NEWLINE=true
-ZSH_THEME="powerlevel9k/powerlevel9k"
-# ZSH_THEME="agnoster"
+ZSH_THEME='yommy'
 DEFAULT_USER=yommy
 
 # Plugins
-plugins=(git osx node npm z zsh-syntax-highlighting)
+plugins=(git osx node npm vi-mode z zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
-
 # source all .zsh files inside of the zsh/zsh directory
 for config ($DOTFILES/zsh/zsh/*.zsh) source $config
 
@@ -25,3 +20,5 @@ if [[ -a ~/.localrc ]]; then
 fi
 
 # [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

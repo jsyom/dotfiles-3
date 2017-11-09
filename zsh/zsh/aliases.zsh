@@ -3,7 +3,8 @@ alias reload!='source ~/.zshrc'
 
 # standard terminal commmands
 alias cl='clear'
-alias lh='ls -a'
+alias l='ls -aFG'
+alias lh='ls -aFG'
 # Switch vim to neovim
 # alias v="nvim"
 # alias vim="vim"
@@ -22,6 +23,8 @@ if type nvim > /dev/null 2>&1; then
   alias v='nvim'
 fi
 
+# UDEMY-DL
+alias udemy='udemy-dl -o ~/Downloads/Udemy -u dkinsk@gmail.com -p beesbees'
 # Youtube-dl
 # MP3
 alias ytmp3='youtube-dl --output "%(title)s.%(ext)s" --extract-audio --audio-format mp3 --audio-quality 0'
