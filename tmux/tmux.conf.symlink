@@ -7,6 +7,7 @@ set -g default-shell /usr/local/bin/zsh
 set-option -g default-command 'reattach-to-user-namespace -l $SHELL'
 set -g status on
 # tmux display things in 256 colors
+set -g default-terminal "screen-256color" # colors!
 set -g default-terminal "xterm-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
 set -g history-limit 5000                 # boost history
@@ -102,7 +103,7 @@ bind Tab last-window        # move to last active window
 # set -g base-index 1         # start windows numbering at 1
 # setw -g pane-base-index 1   # make pane numbering consistent with windows
 #
-# setw -g automatic-rename on # rename window to reflect current program
+setw -g automatic-rename on # rename window to reflect current program
 # set -g renumber-windows on  # renumber windows when a window is closed
 #
 # set -g set-titles on                        # set terminal title
@@ -127,7 +128,7 @@ set -g base-index 1
 # make pane numbering consistent with windows
 setw -g pane-base-index 1
 # disable programs changing window names via terminal escape sequence
-set-window-option -g allow-rename off
+# set-window-option -g allow-rename off
 set -g set-titles on
 # #T is host #W is program name
 set -g set-titles-string "#S"
@@ -174,6 +175,8 @@ setw -g aggressive-resize on
 # make delay shorter
 set -s escape-time 10
 set -sg escape-time 0
+
+set -g status-fg white
 
 # tile all windows
 unbind =

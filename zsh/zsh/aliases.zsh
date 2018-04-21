@@ -17,6 +17,7 @@ alias finder='open -a Finder .'
 alias textedit='open -a TextEdit'
 alias hi='echo $(whoami)'
 
+# alias tmux='tmux -2'
 # if there is neovim then use it and alias it
 if type nvim > /dev/null 2>&1; then
   # alias nv='nvim'

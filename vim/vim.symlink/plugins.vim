@@ -10,19 +10,20 @@ Plug 'metakirby5/codi.vim'
 " Colors and Syntax
 Plug 'trevordmiller/nova-vim'
 Plug 'rakr/vim-one'
-" Plug 'flazz/vim-colorschemes'
+Plug 'flazz/vim-colorschemes'
 Plug 'ap/vim-css-color' " Preview colors in source code
 Plug 'cakebaker/scss-syntax.vim', { 'for': 'scss' } " SCSS syntax highlighting
-Plug 'ryanoasis/vim-devicons' " Add filetype glyphs (icons)
+" Plug 'ryanoasis/vim-devicons' " Add filetype glyphs (icons)
 Plug 'elzr/vim-json'
 " Plug 'mhartington/oceanic-next'
 Plug 'altercation/vim-colors-solarized'
 Plug 'hail2u/vim-css3-syntax' " CSS3 syntax support
 Plug 'tomasr/molokai'
 Plug 'bling/vim-bufferline'
+" Plug 'itchyny/lightline.vim'
 " AirLine
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
@@ -63,8 +64,8 @@ Plug 'christoomey/vim-tmux-navigator' " Seamless navigation between tmux panes a
 """"""""""""""""""
 Plug 'epilande/vim-es2015-snippets', { 'for': ['javascript', 'javascript.jsx'] } " ES2015 code snippets
 Plug 'epilande/vim-react-snippets', { 'for': ['javascript', 'javascript.jsx'] } " React code snippets
-Plug 'SirVer/ultisnips' " Ultimate snippet solution
 Plug 'honza/vim-snippets' " Snippet files for various programming languages
+Plug 'SirVer/ultisnips' " Ultimate snippet solution
 
 Plug 'w0rp/ale'
 
@@ -79,10 +80,10 @@ Plug 'ervandew/supertab'
 Plug 'mattn/emmet-vim'
 Plug 'dyng/ctrlsf.vim' " Code search and view tool
 Plug 'jlanzarotta/bufexplorer' " BufExplorer quickly and easily switch between buffer
+Plug 'Yggdroot/indentLine'
 Plug 'tomtom/tcomment_vim' " Comment stuff out
 Plug 'tpope/vim-repeat'
 Plug 'tpope/vim-surround'
-Plug 'Yggdroot/indentLine'
 Plug 'mbbill/undotree', { 'on': 'UndotreeToggle' } " Undo history visualizer
 Plug 'editorconfig/editorconfig-vim'
 " Visually select larger regions of text using the same key combination
@@ -103,22 +104,9 @@ Plug 'wellle/targets.vim' " Provides additional text objects
 
 call plug#end()
 
-" filetype plugin indent on
 
-set background=dark
-let g:rehash = 1
-" let g:solarized_termcolors = 256
-let g:solarized_termtrans = 1
-" let g:solarized_termcolors = 16
-let g:solarized_contrast = "high"
-let g:solarized_visibility = "high"
-set t_Co=256
-
-" " colorscheme onedark
-" colorscheme solarized
-"
 hi Visual term=reverse cterm=reverse guibg=Grey
-silent! colorscheme solarized
+
 """"""""""""""""""""""""""""""
 " bufExplorer plugin
 """"""""""""""""""""""""""""""
@@ -183,26 +171,36 @@ nnoremap <silent> <leader>b :BTags<CR>
 """"""""""""""""""""""""""""""
 " NERDTree
 """"""""""""""""""""""""""""""
-let g:NERDTreeWinPos = "left"
-let g:NERDTreeShowHidden=1
-let NERDTreeIgnore = ['\.js.map$', '\.DS_Store$']
-let g:NERDTreeWinSize=25
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
-let g:webdevicons_enable = 1
-let g:webdevicons_enable_nerdtree = 1
-let g:WebDevIconsOS = 'Darwin'
-let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
-let NERDTreeChDirMode                   = 2
-map <silent> <C-e> :NERDTreeToggle<CR>
+" let g:NERDTreeWinPos = "left"
+" let g:NERDTreeShowHidden=1
+" let NERDTreeIgnore = ['\.js.map$', '\.DS_Store$']
+" let g:NERDTreeWinSize=25
+" let g:NERDTreeDirArrowExpandable = '▸'
+" let g:NERDTreeDirArrowCollapsible = '▾'
+" let NERDTreeChDirMode                   = 2
+" augroup nerd_loader
+"   autocmd!
+"   autocmd VimEnter * silent! autocmd! FileExplorer
+"   autocmd BufEnter,BufNew *
+"         \  if isdirectory(expand('<amatch>'))
+"         \|   call plug#load('nerdtree')
+"         \|   execute 'autocmd! nerd_loader'
+"         \| endif
+" augroup END
+" map <silent> <C-e> :NERDTreeToggle<CR>
+
+" let g:webdevicons_enable = 0 " should be 1 if you want it
+" let g:webdevicons_enable_nerdtree = 1
+" let g:WebDevIconsOS = 'Darwin'
+" let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
+" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
+" let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 
 """"""""""""""""""""""""""""""
 " vim airline
 """"""""""""""""""""""""""""""
 " let g:airline_powerline_fonts = 1
-" " let g:airline#extensions#tabline#enabled=1
+" let g:airline#extensions#tabline#enabled=1
 " if has("gui_running")
 "   let g:airline_theme="luna"
 " else
@@ -298,10 +296,10 @@ let g:undotree_WindowLayout = 3
 let g:undotree_SplitWidth = 35
 let g:undotree_SetFocusWhenToggle = 1
 
-if has("persistent_undo")
-  set undodir='~/.undodir/'
-  set undofile
-endif
+" if has("persistent_undo")
+"   set undodir='~/.undodir/'
+"   set undofile
+" endif
 
 """"""""""""""""""""""""""""""
 " ZoomWin
@@ -337,61 +335,61 @@ let g:javascript_enable_domhtmlcss = 1 " html tags in js and jsx files?
 """"""""""""""""""""""""""""""
 " ALE
 """"""""""""""""""""""""""""""
-let g:ale_sign_error = 'ㄨ' " error sign
-let g:ale_sign_warning = '>>' " warning sign
-let g:ale_open_list = 0 " this keeps the loclist lint errors from showing up in a vim pane
-let g:ale_lint_on_enter = 1 " 0 disables linting on enter
-let g:ale_set_signs = 1
-let g:ale_lint_on_save = 1 " lint on save instead
-let g:ale_lint_on_text_changed = 'always'
-let g:ale_set_quickfix = 1
-let g:ale_set_highlights = 0
-" prettier setup
-" let g:ale_fixers = {}
-" let g:ale_fixers['javascript'] = ['prettier']
-let g:ale_fixers = {'javascript.jsx': ['prettier'], 'typescript': ['prettier'], 'javascript': ['prettier'], 'typescript.tsx': ['prettier']}
-let g:ale_fix_on_save = 0
-" nmap <Leader>py <Plug>(Prettier)
-
-nmap <Leader>pf <Plug>(ale_fix)
-let g:ale_javascript_prettier_options = '--single-quote --print-width 80 --trailing-comma all'
-" let g:ale_javascript_prettier_options = '--single-quote --no-semi --print-width 80'
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'jsx': ['eslint'],
-\   'typescript': ['tslint', 'tsserver', 'typecheck'],
-\}
-nmap <silent> <C-k> <Plug>(ale_previous_wrap)
-nmap <silent> <C-j> <Plug>(ale_next_wrap)
-
-augroup FiletypeGroup
-    autocmd!
-    au BufNewFile, BufRead *.ts set filetype=typescript
-    au BufRead,BufNewFile *.ts		setlocal filetype=typescript
-    autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
-    au BufNewFile, BufRead *.jsx set filetype=javascript.jsx
-augroup END
-
+" let g:ale_sign_error = 'ㄨ' " error sign
+" let g:ale_sign_warning = '>>' " warning sign
+" let g:ale_open_list = 0 " this keeps the loclist lint errors from showing up in a vim pane
+" let g:ale_lint_on_enter = 1 " 0 disables linting on enter
+" let g:ale_set_signs = 1
+" let g:ale_lint_on_save = 1 " lint on save instead
+" let g:ale_lint_on_text_changed = 'always'
+" let g:ale_set_quickfix = 1
+" let g:ale_set_highlights = 0
+" " prettier setup
+" " let g:ale_fixers = {}
+" " let g:ale_fixers['javascript'] = ['prettier']
+" let g:ale_fixers = {'javascript.jsx': ['prettier'], 'typescript': ['prettier'], 'javascript': ['prettier'], 'typescript.tsx': ['prettier']}
+" let g:ale_fix_on_save = 0
+" " nmap <Leader>py <Plug>(Prettier)
+"
+" nmap <Leader>pf <Plug>(ale_fix)
+" let g:ale_javascript_prettier_options = '--single-quote --print-width 80 --trailing-comma all'
+" " let g:ale_javascript_prettier_options = '--single-quote --no-semi --print-width 80'
+" let g:ale_linters = {
+" \   'javascript': ['eslint'],
+" \   'jsx': ['eslint'],
+" \   'typescript': ['tslint', 'tsserver', 'typecheck'],
+" \}
+" nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+" nmap <silent> <C-j> <Plug>(ale_next_wrap)
+"
+" augroup FiletypeGroup
+"     autocmd!
+"     au BufNewFile, BufRead *.ts set filetype=typescript
+"     au BufRead,BufNewFile *.ts		setlocal filetype=typescript
+"     autocmd BufNewFile,BufRead *.tsx set filetype=typescript.tsx
+"     au BufNewFile, BufRead *.jsx set filetype=javascript.jsx
+" augroup END
+"
 " function to display ALE in airline
-function! LinterStatus() abort
-    let l:counts = ale#statusline#Count(bufnr(''))
+" function! LinterStatus() abort
+"     let l:counts = ale#statusline#Count(bufnr(''))
+"
+"     let l:all_errors = l:counts.error + l:counts.style_error
+"     let l:all_non_errors = l:counts.total - l:all_errors
+"
+"     return l:counts.total == 0 ? 'OK' : printf(
+"     \   '%dW %dE',
+"     \   all_non_errors,
+"     \   all_errors
+"     \)
+" endfunction
+" set statusline=%{LinterStatus()}
 
-    let l:all_errors = l:counts.error + l:counts.style_error
-    let l:all_non_errors = l:counts.total - l:all_errors
-
-    return l:counts.total == 0 ? 'OK' : printf(
-    \   '%dW %dE',
-    \   all_non_errors,
-    \   all_errors
-    \)
-endfunction
-
-set statusline=%{LinterStatus()}
-set rtp+=~/.vim/plugged/typescript-tools.vim/
-let g:TSS = ['tss','--module','commonjs']
-" ALE gutter sign colors
-hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ff0000 guibg=#343d46
-hi ALEWarningSign ctermfg=221 ctermbg=237 guifg=#fac863 guibg=#343d46
+" set rtp+=~/.vim/plugged/typescript-tools.vim/
+" let g:TSS = ['tss','--module','commonjs']
+" " ALE gutter sign colors
+" hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ff0000 guibg=#343d46
+" hi ALEWarningSign ctermfg=221 ctermbg=237 guifg=#fac863 guibg=#343d46
 """"""""""""""""""""""""""""""
 " EditorConfig
 """"""""""""""""""""""""""""""
