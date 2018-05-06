@@ -3,7 +3,6 @@
 
 ![Screenshot](http://i.imgur.com/lcfbXyE.png)
 
-
 ## Installation
 #### Clone this repo
 First step, clone the dotfiles repository to your computer. This can be placed anywhere, and symbolic links will be created to reference it from your home directory.

@@ -2,6 +2,7 @@
 alias reload!='source ~/.zshrc'
 
 # standard terminal commmands
+alias boiler="source ~/boilerscript.sh"
 alias cl='clear'
 alias l='ls -aFG'
 alias lh='ls -aFG'

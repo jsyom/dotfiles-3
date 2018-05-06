@@ -12,6 +12,8 @@ set -g default-terminal "xterm-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
 set -g history-limit 5000                 # boost history
 
+setw -g automatic-rename on # rename window to reflect current program
+setw -g aggressive-resize on
 ##############################
 # => KEY BINDINGS
 ##############################
@@ -60,9 +62,6 @@ bind Up new-window -d -n fullscreen \; swap-pane -s fullscreen.1 \; select-windo
 unbind Down
 bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
 
-# swap window order
-# swap-window -t -1
-
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
 set -g status-keys vi
@@ -74,6 +73,9 @@ bind Escape copy-mode
 unbind p
 
 # -- buffers -------------------------------------------------------------------
+
+# swap window order
+# swap-window -t -1
 
 bind b list-buffers  # list paste buffers
 bind p paste-buffer  # paste from the top paste buffer
@@ -98,12 +100,13 @@ bind C-a next-window
 bind n last-window
 bind Tab last-window        # move to last active window
 
+# Rename Session
+bind < command-prompt -I "#{session_name}" "rename-session '%%'"
 # -- display -------------------------------------------------------------------
 
 # set -g base-index 1         # start windows numbering at 1
 # setw -g pane-base-index 1   # make pane numbering consistent with windows
 #
-setw -g automatic-rename on # rename window to reflect current program
 # set -g renumber-windows on  # renumber windows when a window is closed
 #
 # set -g set-titles on                        # set terminal title
@@ -127,6 +130,8 @@ set-option -g default-command 'reattach-to-user-namespace -l $SHELL'
 set -g base-index 1
 # make pane numbering consistent with windows
 setw -g pane-base-index 1
+
+
 # disable programs changing window names via terminal escape sequence
 # set-window-option -g allow-rename off
 set -g set-titles on
@@ -148,17 +153,8 @@ set -g window-status-activity-fg colour0
 # set-window-option -g window-status-current-bg red
 #0087d7
 
-setw -g automatic-rename on
 # Renumber a window when one is closed
 set -g renumber-windows on
-
-# current session
-set -g status-left ' #S '
-set -g status-left-length 15
-
-
-
-
 
 set -g status-interval 10     # redraw status line every 10 seconds
 # Automatically renumber tmux windows
@@ -169,7 +165,6 @@ set -g visual-activity off
 # Rather than constraining window size to the maximum size of any client
 # connected to the *session*, constrain window size to the maximum size of any
 # client connected to *that window*. Much more reasonable.
-setw -g aggressive-resize on
 # # auto window rename
 # set-window-option -g automatic-rename off
 # make delay shorter
@@ -182,6 +177,84 @@ set -g status-fg white
 unbind =
 bind = select-layout tiled
 
+# Trying OUt new Style for status bar and colors
+# =====================================
+# ===           Theme               ===
+# =====================================
+
+# Feel free to NOT use this variables at all (remove, rename)
+# this are named colors, just for convenience
+color_orange="colour166" # 208, 166
+color_purple="colour134" # 135, 134
+color_green="colour076" # 070
+color_blue="colour39"
+color_yellow="colour220"
+color_red="colour160"
+color_black="colour232"
+color_white="white" # 015
+color_grey="colour234"
+
+# This is a theme CONTRACT, you are required to define variables below
+# Change values, but not remove/rename variables itself
+color_active="$color_grey"
+color_dark="$color_black"
+color_light="$color_white"
+color_session_text="$color_blue"
+color_status_text="colour245"
+color_main="$color_orange"
+color_secondary="$color_purple"
+color_level_ok="$color_green"
+color_level_warn="$color_yellow"
+color_level_stress="$color_red"
+color_window_off_indicator="colour088"
+color_window_off_status_bg="colour238"
+color_window_off_status_current_bg="colour254"
+
+# =====================================
+# ===    Appearence and status bar  ===
+# ======================================
+
+set -g mode-style "fg=default,bg=$color_main"
+
+# command line style
+set -g message-style "fg=$color_main,bg=$color_dark"
+
+# status line style
+set -g status-style "fg=$color_status_text,bg=$color_dark"
+
+# window segments in status line
+set -g window-status-separator ""
+separator_powerline_left=""
+separator_powerline_right=""
+
+# setw -g window-status-style "fg=$color_status_text,bg=$color_dark"
+setw -g window-status-format " #I:#W "
+setw -g window-status-current-style "fg=$color_light,bold,bg=$color_main"
+setw -g window-status-current-format "#[fg=$color_dark,bg=$color_main]$separator_powerline_right#[default] #I:#W# #[fg=$color_main,bg=$color_dark]$separator_powerline_right#[default]"
+
+# when window has monitoring notification
+setw -g window-status-activity-style "fg=$color_main"
+
+set -g window-style "bg=$color_active"
+set -g window-active-style "bg=$color_active"
+# outline for active pane
+setw -g pane-active-border-style "fg=$color_main,bg=$color_dark"
+# setw -g pane-active-border-style "bg=$color_light"
+# general status bar settings
+set -g status on
+set -g status-interval 5
+set -g status-justify left
+set -g status-right-length 100
+# define widgets we're going to use in status bar
+# note, that this is not the complete list, some of them are loaded from plugins
+wg_session="#[fg=$color_session_text] #S #[default]"
+wg_date="#[fg=$color_secondary]%h %d %H:%M#[default]"
+wg_user_host="#[fg=$color_secondary]#(whoami)#[default]@#H"
+wg_is_zoomed="#[fg=$color_dark,bg=$color_secondary]#{?window_zoomed_flag,[Z],}#[default]"
+# TODO: highlighted for nested local session as well
+wg_is_keys_off="#[fg=$color_light,bg=$color_window_off_indicator]#([ $(tmux show-option -qv key-table) = 'off' ] && echo 'OFF')#[default]"
+set -g status-left "$wg_session"
+set -g status-right "#{prefix_highlight} $wg_is_keys_off $wg_is_zoomed | $wg_user_host | $wg_date |"
 ##############################
 # => PLUGINS
 ##############################

@@ -5,6 +5,7 @@ set modelines=1
 " This must be first, because it changes other options as a side effect.
 set nocompatible
 
+
 if (empty($TMUX))
   if (has("nvim"))
     let $NVIM_TUI_ENABLE_TRUE_COLOR=1
@@ -90,6 +91,31 @@ set foldcolumn=0                " add a fold column
 set foldmethod=marker           " detect triple-{ style fold markers
 set foldlevelstart=99           " start out with everything unfolded
 set foldopen=block,hor,insert,jump,mark,percent,quickfix,search,tag,undo
+                                " which commands trigger auto-unfold
+" function! MyFoldText()
+"     let line = getline(v:foldstart)
+"
+"     let nucolwidth = &fdc + &number * &numberwidth
+"     let windowwidth = winwidth(0) - nucolwidth - 3
+"     let foldedlinecount = v:foldend - v:foldstart
+"
+"     " expand tabs into spaces
+"     let onetab = strpart('          ', 0, &tabstop)
+"     let line = substitute(line, '\t', onetab, 'g')
+"
+"     let line = strpart(line, 0, windowwidth - 2 -len(foldedlinecount))
+"     let fillcharcount = windowwidth - len(line) - len(foldedlinecount) - 4
+"     return line . ' …' . repeat(" ",fillcharcount) . foldedlinecount . ' '
+" endfunction
+" set foldtext=MyFoldText()
+"
+" " Mappings to easily toggle fold levels
+" nnoremap z0 :set foldlevel=0<cr>
+" nnoremap z1 :set foldlevel=1<cr>
+" nnoremap z2 :set foldlevel=2<cr>
+" nnoremap z3 :set foldlevel=3<cr>
+" nnoremap z4 :set foldlevel=4<cr>
+" nnoremap z5 :set foldlevel=5<cr>
 " }}}
 
 " Editor layout {{{
@@ -121,7 +147,9 @@ endtry
 set completeopt-=preview
 set wildmenu                    " make tab completion for files/buffers act like bash
 set wildmode=list:longest,full
+
 set iskeyword+=_,$,@,%,#
+" set wildmode=list:full          " show a list when pressing tab and complete
 "                                 "    first full match
 set wildignore=*.o,*~,*.pyc
 " set wildignore=*.swp,*.bak,*.pyc,*.class
@@ -180,6 +208,16 @@ endfunction
 
 " Highlighting {{{
 
+" if (has("termguicolors"))
+"    set termguicolors
+" endif
+
+if &t_Co > 2 || has("gui_running")
+   syntax on                    " switch syntax highlighting on, when the terminal has colors
+endif
+
+
+
 " }}}
 
 " Shortcut Mappings {{{
@@ -190,34 +228,46 @@ nnoremap ; :
 " Fast saving
 nmap <leader>w :w!<cr>
 map <silent> <leader><cr> :noh<cr>
+
 " Copy/Paste to clipboard
 vmap <leader>y "+y
 vmap <leader>d "+d
 map <leader>p "+p
 map <leader>P "+P
-" Edit vimrc
-map <leader>e :e! ~/.vimrc<cr>
+
 " Indent/Unindent
 noremap > >>
 noremap < <<
 vnoremap > >gv
 vnoremap < <gv
+
 " To the leftmost non-blank character of the current line
 map H g^
 " To the rightmost character of the current line
 map L g$
+
+
 " Quick quit
 map <leader>qq :q<cr>
+
 " Quick file reload
 map <leader>r :e<cr>
+
 " Switch between the last two files
 nnoremap <leader><leader> <C-^>
+
 " Quickly select text you just pasted
 nnoremap gV `[v`]
+
 " Edit the vimrc file
 nnoremap <silent> <leader>ev :e $MYVIMRC<CR>
 nnoremap <silent> <leader>sv :so $MYVIMRC<CR>
+
+" Quickly get out of insert mode without your fingers having to leave the
+" home row (either use 'jj' or 'jk')
+" inoremap jk <Esc>
 inoremap jk <ESC>`^
+
 " Sudo to write
 cnoremap w!! w !sudo tee % >/dev/null
 " Jump to matching pairs easily, with Tab
@@ -228,11 +278,13 @@ nnoremap <Space> za
 vnoremap <Space> za
 " Strip all trailing whitespace from a file, using ,W
 nnoremap <leader>W :%s/\s\+$//<CR>:let @/=''<CR>
+
 " Use The Silver Searcher over grep, iff possible
 if executable('ag')
    " Use ag over grep
    set grepprg=ag\ --nogroup\ --nocolor
 endif
+
 " grep/Ack/Ag for the word under cursor
 " vnoremap <leader>a y:grep! "\b<c-r>"\b"<cr>:cw<cr>
 " nnoremap <leader>a :grep! "\b<c-r><c-w>\b"
@@ -447,24 +499,21 @@ autocmd BufReadPost *
     \   exe "normal! g`\"" |
     \ endif
 
+
 autocmd CmdwinEnter * nnoremap <CR> <CR>
 autocmd BufReadPost quickfix nnoremap <CR> <CR>
-
-" Return to last edit position when opening files (You want this!)
-autocmd BufReadPost *
-  \ if line("'\"") > 0 && line("'\"") <= line("$") |
-  \   exe "normal! g`\"" |
-  \ endif
-" Remember info about open buffers on close
-set viminfo^=%
 " }}}
 
 " Extra vi-compatibility {{{
 " set extra vi-compatible options
+" set cpoptions+=$     " when changing a line, don't redisplay, but put a '$' at
+                     " the end during the change
 set formatoptions-=o " don't start new lines w/ comment leader on pressing 'o'
-au filetype vim set formatoptions-=o " somehow, during vim filetype detection, this gets set
+au filetype vim set formatoptions-=o
+                     " somehow, during vim filetype detection, this gets set
                      " for vim files, so explicitly unset it again
-au filetype crontab setlocal backupcopy=yes " editing crontab files needs to happen in-place
+au filetype crontab setlocal backupcopy=yes
+                     " editing crontab files needs to happen in-place
 " }}}
 
 """""""""""""""""""""""""""
@@ -486,7 +535,16 @@ else
     set bg=dark
 endif
 
+" set t_Co=256
+" if &t_Co == 8 && $TERM !~# '^linux'
+"   set t_Co=16
+" endif
 set bg=dark
+" let g:oceanic_next_terminal_bold = 1
+" let g:oceanic_next_terminal_italic = 1
+" colorscheme OceanicNext
+"
+syntax on
 let g:onedark_termcolors=256
 colorscheme onedark
 " colorscheme Tomorrow-Night-Bright
@@ -515,17 +573,18 @@ set statusline+=\ %2p%% " Percentage through file in lines as in |CTRL-G|
 " " - if StatusLine colors are reverse, then User1 is not reverse and User1 fg = StatusLine fg
 hi StatusLine cterm=reverse gui=reverse ctermfg=14 ctermbg=8 guifg=#93a1a1 guibg=#002732
 hi StatusLineNC cterm=reverse gui=reverse ctermfg=11 ctermbg=0 guifg=#657b83 guibg=#073642
-
+"
 " JavaScript configuration ------------------------------------------------ {{{
+
 " let g:javascript_plugin_jsdoc = 1
 " let g:javascript_plugin_flow = 1
+
 " }}}
 
 
 " Make the Line Numbers Dark Grey to make it more readable against dark bg
 highlight LineNr  ctermfg=DarkGrey guifg=DarkGrey
 
-" Nerd Tree Settings{{{
 
 let g:NERDTreeWinPos = "left"
 let g:NERDTreeShowHidden=1
@@ -564,9 +623,10 @@ call NERDTreeHighlightFile('php', 140, 'none', '#9E6FCD')
 call NERDTreeHighlightFile('gif', 36, 'none', '#15A274')
 call NERDTreeHighlightFile('jpg', 36, 'none', '#15A274')
 call NERDTreeHighlightFile('png', 36, 'none', '#15A274')
-" }}}
 
 " ALE config {{{
+
+
 let g:ale_sign_error = 'ㄨ' " error sign
 let g:ale_sign_warning = '>>' " warning sign
 let g:ale_open_list = 0 " this keeps the loclist lint errors from showing up in a vim pane
@@ -576,11 +636,11 @@ let g:ale_lint_on_save = 1 " lint on save instead
 let g:ale_lint_on_text_changed = 'always'
 let g:ale_set_quickfix = 1
 let g:ale_set_highlights = 0
-let g:ale_fixers = {'javascript.jsx': ['prettier'], 'typescript': ['prettier'], 'javascript': ['prettier'], 'typescript.tsx': ['prettier']}
-let g:ale_fix_on_save = 0
 " prettier setup
 " let g:ale_fixers = {}
 " let g:ale_fixers['javascript'] = ['prettier']
+let g:ale_fixers = {'javascript.jsx': ['prettier'], 'typescript': ['prettier'], 'javascript': ['prettier'], 'typescript.tsx': ['prettier']}
+let g:ale_fix_on_save = 0
 " nmap <Leader>py <Plug>(Prettier)
 
 nmap <Leader>pf <Plug>(ale_fix)
@@ -591,6 +651,8 @@ let g:ale_linters = {
 \   'jsx': ['eslint'],
 \   'typescript': ['tslint', 'tsserver', 'typecheck'],
 \}
+" nmap <silent> <C-k> <Plug>(ale_previous_wrap)
+" nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 augroup FiletypeGroup
     autocmd!
@@ -623,6 +685,33 @@ let g:TSS = ['tss','--module','commonjs']
 hi ALEErrorSign ctermfg=203 ctermbg=237 guifg=#ff0000 guibg=#343d46
 hi ALEWarningSign ctermfg=221 ctermbg=237 guifg=#fac863 guibg=#343d46
 
+
+" " let g:ale_enabled = 1
+" let g:ale_sign_error = 'ㄨ' " error sign
+" let g:ale_sign_warning = '>>' " warning sign
+" let g:ale_completion_enabled = 0
+" let g:ale_lint_delay = 200   " millisecs
+" let g:ale_lint_on_text_changed = 'always'  " never/insert/normal/always
+" let g:ale_lint_on_enter = 1
+" let g:ale_lint_on_filetype_changed = 1
+" let g:ale_lint_on_save = 1
+" let g:ale_set_loclist = 0
+" let g:ale_set_quickfix = 1
+" let g:ale_fix_on_save = 0
+" " let g:ale_open_list = 1
+" let g:ale_javascript_prettier_options = '--single-quote --print-width 80 --trailing-comma all'
+" nmap <Leader>pf <Plug>(ale_fix)
+"
+" let g:ale_linters = {
+" \   'javascript.jsx': ['eslint', 'flow'],
+" \   'javascript': ['eslint', 'flow'],
+" \}
+" let g:ale_fixers = {
+" \   'javascript.jsx': ['eslint', 'prettier'],
+" \   'javascript': ['eslint', 'prettier'],
+" \}
+" " }}}
+
 " NOTES {{{
 let g:notes_folder = '~/Notes/'
 " Project specific notes
@@ -633,7 +722,9 @@ map <silent> <leader>n :execute ':topleft split ' . g:notes<cr>:execute ':resize
 " Open daily notes
 let g:daily_notes = g:notes_folder . 'Daily/daily-notes.org'
 map <silent> <leader>nn :execute ':topleft split ' . g:daily_notes<cr>:execute ':resize' . g:note_size<cr>
+
 " }}}
+
 
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
@@ -641,20 +732,6 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 "
 "
 hi Normal ctermfg=White guifg=White
-
-" Strip trailing spaces
-function! <SID>StripTrailingWhitespaces()
-  let l = line(".")
-  let c = col(".")
-  %s/\s\+$//e
-  call cursor(l, c)
-endfun
-
-" Strip trailing spaces on save
-autocmd BufWritePre * :call <SID>StripTrailingWhitespaces()
-"
-" Automatically recognize filetypes by extension
-autocmd BufRead,BufNewFile .{babel,eslint,stylelint}rc set filetype=json
 " hi Comment guifg=#5c6360
 " hi jsParensError guifg=White
 " vim:foldmethod=marker:foldlevel=0

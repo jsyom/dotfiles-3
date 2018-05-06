@@ -8,7 +8,9 @@ endif
 
 Plug 'metakirby5/codi.vim'
 " Colors and Syntax
-Plug 'trevordmiller/nova-vim'
+" Plug 'trevordmiller/nova-vim'
+Plug 'NLKNguyen/papercolor-theme'
+" Plug 'dracula/vim', { 'as': 'dracula' }
 Plug 'rakr/vim-one'
 Plug 'flazz/vim-colorschemes'
 Plug 'ap/vim-css-color' " Preview colors in source code
@@ -30,6 +32,7 @@ Plug 'junegunn/fzf.vim'
 """"""""""""""""""
 "Javascript Syntax
 """"""""""""""""""
+" Plug 'sheerun/vim-polyglot'
 Plug 'pangloss/vim-javascript', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'jelera/vim-javascript-syntax', {'for':['javascript', 'javascript.jsx']}
 Plug 'mxw/vim-jsx', { 'for': ['javascript', 'javascript.jsx'] }
@@ -37,10 +40,11 @@ Plug 'heavenshell/vim-jsdoc', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'othree/javascript-libraries-syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
 Plug 'leafgarland/typescript-vim'
 Plug 'clausreinke/typescript-tools.vim', { 'do': 'npm install' }
-Plug 'Quramy/tsuquyomi'
-" Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
-" Plug 'fleischie/vim-styled-components', { 'for': ['javascript', 'javascript.jsx'] } " Syntax for styled-components
+Plug 'moll/vim-node'
+" Plug 'Quramy/tsuquyomi'
+Plug 'othree/yajs.vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'othree/es.next.syntax.vim', { 'for': ['javascript', 'javascript.jsx'] }
+Plug 'fleischie/vim-styled-components', { 'for': ['javascript', 'javascript.jsx'] } " Syntax for styled-components
 " Tern Deoplete and YouComple Me
 if has('nvim')
   Plug 'roxma/nvim-cm-tern',  {'do': 'npm install'}
@@ -98,8 +102,8 @@ Plug 'jceb/vim-orgmode', { 'for': 'org' } " Vim Orgmode
 Plug 'tpope/vim-speeddating', { 'for': 'org' } " Increment dates, times, and more
 Plug 'wellle/targets.vim' " Provides additional text objects
 " Plug 'Konfekt/FastFold' " Speed up Vim by updating folds only when called-for
-" Plug 'plasticboy/vim-markdown', { 'for': 'markdown' } " Markdown syntax highlighting
-" Plug 'terryma/vim-multiple-cursors' " Sublime Text style multiple selections
+Plug 'plasticboy/vim-markdown', { 'for': 'markdown' } " Markdown syntax highlighting
+Plug 'terryma/vim-multiple-cursors' " Sublime Text style multiple selections
 " Plug 'easymotion/vim-easymotion' " Vim motions on speed
 
 call plug#end()
@@ -168,33 +172,6 @@ nnoremap <silent> <leader>` :Marks<CR>
 nnoremap <silent> <leader>t :Tags<CR>
 nnoremap <silent> <leader>b :BTags<CR>
 
-""""""""""""""""""""""""""""""
-" NERDTree
-""""""""""""""""""""""""""""""
-" let g:NERDTreeWinPos = "left"
-" let g:NERDTreeShowHidden=1
-" let NERDTreeIgnore = ['\.js.map$', '\.DS_Store$']
-" let g:NERDTreeWinSize=25
-" let g:NERDTreeDirArrowExpandable = '▸'
-" let g:NERDTreeDirArrowCollapsible = '▾'
-" let NERDTreeChDirMode                   = 2
-" augroup nerd_loader
-"   autocmd!
-"   autocmd VimEnter * silent! autocmd! FileExplorer
-"   autocmd BufEnter,BufNew *
-"         \  if isdirectory(expand('<amatch>'))
-"         \|   call plug#load('nerdtree')
-"         \|   execute 'autocmd! nerd_loader'
-"         \| endif
-" augroup END
-" map <silent> <C-e> :NERDTreeToggle<CR>
-
-" let g:webdevicons_enable = 0 " should be 1 if you want it
-" let g:webdevicons_enable_nerdtree = 1
-" let g:WebDevIconsOS = 'Darwin'
-" let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
-" let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-" let g:WebDevIconsNerdTreeGitPluginForceVAlign = 1
 
 """"""""""""""""""""""""""""""
 " vim airline
@@ -331,6 +308,7 @@ let g:javascript_plugin_jsdoc = 1 " Enables syntax highlighting for JSDocs.
 let g:jsx_ext_required = 0 " Allow JSX in normal JS files
 let g:used_javascript_libs = 'angularjs,react,jquery,underscore,angularuirouter,flux,requirejs,jasmine,chai,d3'
 let g:javascript_enable_domhtmlcss = 1 " html tags in js and jsx files?
+let g:javascript_plugin_flow = 1
 
 """"""""""""""""""""""""""""""
 " ALE

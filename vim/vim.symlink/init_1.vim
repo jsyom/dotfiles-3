@@ -620,9 +620,22 @@ call NERDTreeHighlightFile('md', 208, 'none', '#FD720A')
 " call NERDTreeHighlightFile('png', 36, 'none', '#15A274')
 " call NERDTreeHighlightFile('hbs', 202, 'none', '#FC4709')
 
-autocmd! BufWritePost .vimrc,*vimrc source %
 
 """"""""""""""""""""""""""""""
 " vim-multiple-cursors
 """"""""""""""""""""""""""""""
 " let g:multi_cursor_next_key="\<C-s>"
+"
+highlight jsArrowFunction      ctermfg=197 cterm=bold guifg=#F92672 gui=bold
+highlight jsBrackets                       cterm=bold               gui=bold
+highlight jsClassBraces        ctermfg=197 cterm=bold guifg=#F92672 gui=bold
+highlight jsDestructuringBlock ctermfg=194 cterm=bold guifg=#AAFFAA gui=bold
+highlight jsFuncBraces         ctermfg=118            guifg=#A6E22E
+highlight jsFuncCall           ctermfg=228            guifg=#A6A5AE
+highlight jsModuleBraces       ctermfg=14  cterm=bold guifg=#0099FF gui=bold
+highlight jsModuleKeyword      ctermfg=225            guifg=#FFBBBB
+highlight jsNoise              ctermfg=197 cterm=bold guifg=#F92672 gui=bold
+highlight jsObjectBraces       ctermfg=197 cterm=bold guifg=#F92672 gui=bold
+highlight jsVariableDef        ctermfg=194 cterm=bold guifg=#AAFFAA gui=bold
+
+" autocmd! BufWritePost .vimrc,*vimrc source %
