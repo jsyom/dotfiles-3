@@ -7,7 +7,7 @@ set -g default-shell /usr/local/bin/zsh
 set-option -g default-command 'reattach-to-user-namespace -l $SHELL'
 set -g status on
 # tmux display things in 256 colors
-set -g default-terminal "screen-256color" # colors!
+# set -g default-terminal "screen-256color" # colors!
 set -g default-terminal "xterm-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
 set -g history-limit 5000                 # boost history
@@ -82,7 +82,7 @@ bind p paste-buffer  # paste from the top paste buffer
 bind P choose-buffer # choose which buffer to paste from
 
 # Setup 'v' to begin selection as in Vim
-bind-key -T copy-mode-vi 'v' send -X begin-selection
+bind-key -T copy-mode-vi v send -X begin-selection
 bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel
 
 # Smart pane switching with awareness of vim splits
@@ -102,35 +102,12 @@ bind Tab last-window        # move to last active window
 
 # Rename Session
 bind < command-prompt -I "#{session_name}" "rename-session '%%'"
-# -- display -------------------------------------------------------------------
-
-# set -g base-index 1         # start windows numbering at 1
-# setw -g pane-base-index 1   # make pane numbering consistent with windows
-#
-# set -g renumber-windows on  # renumber windows when a window is closed
-#
-# set -g set-titles on                        # set terminal title
-# set -g set-titles-string '#I #W'
-#
-# set -g display-panes-time 800 # slightly longer pane indicators display time
-# set -g display-time 1000      # slightly longer status messages display time
-#
-# set -g status-interval 10     # redraw status line every 10 seconds
-#
-# # clear both screen and history
-# bind -n C-l send-keys C-l \; run 'sleep 0.1' \; clear-history
-#
-# # activity
-# set -g monitor-activity on
-# set -g visual-activity off
-
 
 set-option -g default-command 'reattach-to-user-namespace -l $SHELL'
 # start numbering windows from 1 instead of zero
 set -g base-index 1
 # make pane numbering consistent with windows
 setw -g pane-base-index 1
-
 
 # disable programs changing window names via terminal escape sequence
 # set-window-option -g allow-rename off
@@ -174,7 +151,7 @@ set -sg escape-time 0
 set -g status-fg white
 
 # tile all windows
-unbind =
+# unbind =
 bind = select-layout tiled
 
 # Trying OUt new Style for status bar and colors
@@ -229,16 +206,17 @@ separator_powerline_right=""
 
 # setw -g window-status-style "fg=$color_status_text,bg=$color_dark"
 setw -g window-status-format " #I:#W "
-setw -g window-status-current-style "fg=$color_light,bold,bg=$color_main"
-setw -g window-status-current-format "#[fg=$color_dark,bg=$color_main]$separator_powerline_right#[default] #I:#W# #[fg=$color_main,bg=$color_dark]$separator_powerline_right#[default]"
+setw -g window-status-style "fg=$color_light,bold,bg=$color_main"
+setw -g window-status-current-style "fg=$color_dark,bold,bg=$color_session_text"
+setw -g window-status-current-format "#[fg=$color_dark,bg=$color_light]$separator_powerline_right#[default] #I:#W# #[fg=$color_light,bg=$color_dark]$separator_powerline_right#[default]"
 
 # when window has monitoring notification
 setw -g window-status-activity-style "fg=$color_main"
 
-set -g window-style "bg=$color_active"
-set -g window-active-style "bg=$color_active"
+# set -g window-style "bg=default"
+# set -g window-active-style "bg=default"
 # outline for active pane
-setw -g pane-active-border-style "fg=$color_main,bg=$color_dark"
+setw -g pane-active-border-style "fg=$color_dark,bg=$color_active"
 # setw -g pane-active-border-style "bg=$color_light"
 # general status bar settings
 set -g status on
@@ -247,7 +225,7 @@ set -g status-justify left
 set -g status-right-length 100
 # define widgets we're going to use in status bar
 # note, that this is not the complete list, some of them are loaded from plugins
-wg_session="#[fg=$color_session_text] #S #[default]"
+wg_session="#[fg=$color_dark,bold,bg=$color_level_ok] #S #[default]"
 wg_date="#[fg=$color_secondary]%h %d %H:%M#[default]"
 wg_user_host="#[fg=$color_secondary]#(whoami)#[default]@#H"
 wg_is_zoomed="#[fg=$color_dark,bg=$color_secondary]#{?window_zoomed_flag,[Z],}#[default]"
@@ -289,76 +267,4 @@ run-shell '~/.tmux/plugins/tpm/tpm'
 # bind f switchc -t Finder
 # switch back to last session
 
-
-
-
-
 #
-#
-# ##############################
-# # STYLING
-# ##############################
-# # set refresh interval for status bar
-# set -g status-interval 0
-#
-# set -g status-fg white
-# set -g status-bg default
-# set -g status-attr bright
-#
-# set -g status-interval 1
-# set -g status-justify centre # center align window list
-# set -g status-left-length 60
-# set -g status-right-length 100
-# set -g status-left ''
-# set -g status-right ''
-#
-# # #H hostname of localhost #S Session Name #I Window inedex #P pane number
-# set -g status-left '#[fg=green]#H #[fg=black]• #[fg=red]#S#[fg=red] #I:#P#[default]'
-# set -g status-right '#[fg=green,bg=black,bright]#(tmux-mem-cpu-load 1) #[fg=red,dim]#(ifconfig en0 | grep "inet " | cut -f 2 -d " ") #[fg=blue]%Y-%m-%d #[fg=white]%a%l:%M:%S %p#[default]'
-#
-# setw -g window-status-current-format ' #I#[fg=colour250]:#[fg=colour255]#W#[fg=colour50]#F '
-# setw -g window-status-format ' #I#[fg=colour237]:#[fg=colour250]#W#[fg=colour244]#F '
-#
-#
-# ########################
-# # WINDOWS
-# ########################
-# # make window/pane index start with 1
-# set -g base-index 1
-# setw -g pane-base-index 1
-#
-# # default window title colors
-# set-window-option -g window-status-fg white
-# set-window-option -g window-status-bg default
-# set-window-option -g window-status-attr dim
-#
-# # active window title colors
-# set-window-option -g window-status-current-fg white
-# set-window-option -g window-status-current-bg default
-# set-window-option -g window-status-current-attr bright
-#
-# # color status bar
-# set -g status-bg default
-# set -g status-fg red
-#
-# # Highlight active window
-# set-window-option -g window-status-current-bg red
-#0087d7
-# #######################
-# # PANES
-# #######################
-# # Highlight active pane
-# set-option -g pane-active-border-fg red
-#
-#
-
-
-
-
-
-
-
-
-
-
-
