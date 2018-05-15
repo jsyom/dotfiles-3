@@ -7,41 +7,42 @@ set -g default-shell /usr/local/bin/zsh
 set-option -g default-command 'reattach-to-user-namespace -l $SHELL'
 set -g status on
 # tmux display things in 256 colors
-# set -g default-terminal "screen-256color" # colors!
+set -g default-terminal "screen-256color" # colors!
 set -g default-terminal "xterm-256color"
 set -ga terminal-overrides ",xterm-256color:Tc"
+setw -g xterm-keys on
+set -s escape-time 0                     # faster command sequences
+set -sg repeat-time 600 # increase repeat timeout
+set -s focus-events on
 set -g history-limit 5000                 # boost history
 
+set -q -g status-utf8 on
+setw -q -g utf8 on
 setw -g automatic-rename on # rename window to reflect current program
 setw -g aggressive-resize on
+#
 ##############################
 # => KEY BINDINGS
-##############################
-
 # Unbind default prefix and set it to Ctrl+a cause easier
 unbind C-b
 set -g prefix C-a
 bind C-a send-prefix
 bind-key a send-prefix
-
 # move OS clipboard into tmux paste buffer
 bind c-v run "reattach-to-user-namespace pbpaste | tmux load-buffer - && tmux paste-buffer" \; display-message "copied from os clipboard"
 # move tmux copy buffer into OS clipboard
 bind C-c run "tmux save-buffer - | reattach-to-user-namespace pbcopy" \; display-message "Copied to OS clipboard"
-
 # reload config file
 bind r source-file ~/.tmux.conf \; display "Config Reloaded!"
 # load dev config
 bind C-d source-file ~/.tmux/dev.conf \; display "Dev config loaded!"
 # quickly open a new window
 bind N new-window
-
 # split window and fix path for tmux 1.9
 bind | split-window -h -c "#{pane_current_path}"
 bind - split-window -v -c "#{pane_current_path}"
 # synchronize all panes in a window
 bind y setw synchronize-panes
-
 # pane movement shortcuts
 bind h select-pane -L
 bind j select-pane -D
@@ -61,30 +62,25 @@ unbind Up
 bind Up new-window -d -n fullscreen \; swap-pane -s fullscreen.1 \; select-window -t fullscreen
 unbind Down
 bind Down last-window \; swap-pane -s fullscreen.1 \; kill-window -t fullscreen
-
 # force Vi mode
 #   really you should export VISUAL or EDITOR environment variable, see manual
 set -g status-keys vi
 set -g mode-keys vi
-
 # more settings to make copy-mode more vim-like
 unbind [
 bind Escape copy-mode
-unbind p
 
+# find session
+bind C-f command-prompt -p find-session 'switch-client -t %%'
 # -- buffers -------------------------------------------------------------------
-
 # swap window order
 # swap-window -t -1
-
 bind b list-buffers  # list paste buffers
 bind p paste-buffer  # paste from the top paste buffer
 bind P choose-buffer # choose which buffer to paste from
-
 # Setup 'v' to begin selection as in Vim
 bind-key -T copy-mode-vi v send -X begin-selection
 bind-key -T copy-mode-vi 'y' send -X copy-selection-and-cancel
-
 # Smart pane switching with awareness of vim splits
 # vim-tmux-navigator
 is_vim='echo "#{pane_current_command}" | grep -iqE "(^|\/)g?(view|n?vim?)(diff)?$"'
@@ -99,140 +95,128 @@ bind b switchc -l
 bind C-a next-window
 bind n last-window
 bind Tab last-window        # move to last active window
-
+# tile all windows
+# unbind =
+bind = select-layout tiled
 # Rename Session
 bind < command-prompt -I "#{session_name}" "rename-session '%%'"
 
 set-option -g default-command 'reattach-to-user-namespace -l $SHELL'
-# start numbering windows from 1 instead of zero
-set -g base-index 1
-# make pane numbering consistent with windows
-setw -g pane-base-index 1
+######################
+### DESIGN CHANGES ###
+######################
 
-# disable programs changing window names via terminal escape sequence
-# set-window-option -g allow-rename off
-set -g set-titles on
-# #T is host #W is program name
-set -g set-titles-string "#S"
-# status bar
-set -g status-position bottom
-set -g status-fg colour8
-set -g status-bg colour234
-set -g status-right "#(battery) "
-set -g status-right-length 250
-set -g status-interval 15
+# panes
+set -g pane-border-fg black
+set -g pane-active-border-fg brightred
 
-# window list
-set -g window-status-format " #W "
-set -g window-status-current-format "#[fg=colour117,bg=colour31] #[fg=colour231]#W#[fg=colour234] "
-set -g window-status-activity-bg colour12
-set -g window-status-activity-fg colour0
-# set-window-option -g window-status-current-bg red
-#0087d7
-
-# Renumber a window when one is closed
-set -g renumber-windows on
-
-set -g status-interval 10     # redraw status line every 10 seconds
-# Automatically renumber tmux windows
-set -g renumber-windows on
-set -g monitor-activity on
-set -g visual-activity off
-# Activity Monitoring
-# Rather than constraining window size to the maximum size of any client
-# connected to the *session*, constrain window size to the maximum size of any
-# client connected to *that window*. Much more reasonable.
-# # auto window rename
-# set-window-option -g automatic-rename off
-# make delay shorter
-set -s escape-time 10
-set -sg escape-time 0
-
-set -g status-fg white
-
-# tile all windows
-# unbind =
-bind = select-layout tiled
-
-# Trying OUt new Style for status bar and colors
-# =====================================
-# ===           Theme               ===
-# =====================================
-
-# Feel free to NOT use this variables at all (remove, rename)
-# this are named colors, just for convenience
-color_orange="colour166" # 208, 166
-color_purple="colour134" # 135, 134
-color_green="colour076" # 070
-color_blue="colour39"
-color_yellow="colour220"
-color_red="colour160"
-color_black="colour232"
-color_white="white" # 015
-color_grey="colour234"
-
-# This is a theme CONTRACT, you are required to define variables below
-# Change values, but not remove/rename variables itself
-color_active="$color_grey"
-color_dark="$color_black"
-color_light="$color_white"
-color_session_text="$color_blue"
-color_status_text="colour245"
-color_main="$color_orange"
-color_secondary="$color_purple"
-color_level_ok="$color_green"
-color_level_warn="$color_yellow"
-color_level_stress="$color_red"
-color_window_off_indicator="colour088"
-color_window_off_status_bg="colour238"
-color_window_off_status_current_bg="colour254"
-
-# =====================================
-# ===    Appearence and status bar  ===
-# ======================================
-
-set -g mode-style "fg=default,bg=$color_main"
-
-# command line style
-set -g message-style "fg=$color_main,bg=$color_dark"
-
-# status line style
-set -g status-style "fg=$color_status_text,bg=$color_dark"
-
-# window segments in status line
-set -g window-status-separator ""
-separator_powerline_left=""
-separator_powerline_right=""
-
-# setw -g window-status-style "fg=$color_status_text,bg=$color_dark"
-setw -g window-status-format " #I:#W "
-setw -g window-status-style "fg=$color_light,bold,bg=$color_main"
-setw -g window-status-current-style "fg=$color_dark,bold,bg=$color_session_text"
-setw -g window-status-current-format "#[fg=$color_dark,bg=$color_light]$separator_powerline_right#[default] #I:#W# #[fg=$color_light,bg=$color_dark]$separator_powerline_right#[default]"
-
-# when window has monitoring notification
-setw -g window-status-activity-style "fg=$color_main"
-
-# set -g window-style "bg=default"
-# set -g window-active-style "bg=default"
-# outline for active pane
-setw -g pane-active-border-style "fg=$color_dark,bg=$color_active"
-# setw -g pane-active-border-style "bg=$color_light"
-# general status bar settings
-set -g status on
-set -g status-interval 5
+## Status bar design
+# status line
 set -g status-justify left
-set -g status-right-length 100
-# define widgets we're going to use in status bar
-# note, that this is not the complete list, some of them are loaded from plugins
-wg_session="#[fg=$color_dark,bold,bg=$color_level_ok] #S #[default]"
-wg_date="#[fg=$color_secondary]%h %d %H:%M#[default]"
-wg_user_host="#[fg=$color_secondary]#(whoami)#[default]@#H"
-wg_is_zoomed="#[fg=$color_dark,bg=$color_secondary]#{?window_zoomed_flag,[Z],}#[default]"
-# TODO: highlighted for nested local session as well
-wg_is_keys_off="#[fg=$color_light,bg=$color_window_off_indicator]#([ $(tmux show-option -qv key-table) = 'off' ] && echo 'OFF')#[default]"
-set -g status-left "$wg_session"
-set -g status-right "#{prefix_highlight} $wg_is_keys_off $wg_is_zoomed | $wg_user_host | $wg_date |"
+set -g status-bg default
+set -g status-fg colour12
+set -g status-interval 2
+
+# messaging
+set -g message-fg black
+set -g message-bg yellow
+set -g message-command-fg blue
+set -g message-command-bg black
+
+#window mode
+setw -g mode-bg colour6
+setw -g mode-fg colour0
+
+# window status
+setw -g window-status-format " #F#I:#W#F "
+setw -g window-status-current-format " #F#I:#W#F "
+setw -g window-status-format "#[fg=magenta]#[bg=black] #I #[bg=cyan]#[fg=colour8] #W "
+setw -g window-status-current-format "#[bg=brightmagenta]#[fg=colour8] #I #[fg=colour8]#[bg=colour14] #W "
+setw -g window-status-current-bg colour0
+setw -g window-status-current-fg colour11
+setw -g window-status-current-attr dim
+setw -g window-status-bg green
+setw -g window-status-fg black
+setw -g window-status-attr reverse
+
+# Info on left (I don't have a session display for now)
+set -g status-left ''
+
+# loud or quiet?
+set-option -g visual-activity off
+set-option -g visual-bell off
+set-option -g visual-silence off
+set-window-option -g monitor-activity off
+set-option -g bell-action none
+
+set -g default-terminal "screen-256color"
+
+# The modes {
+setw -g clock-mode-colour colour135
+setw -g mode-attr bold
+setw -g mode-fg colour196
+setw -g mode-bg colour238
+
+# }
+# The panes {
+
+set -g pane-border-bg colour235
+set -g pane-border-fg colour238
+set -g pane-active-border-bg colour236
+set -g pane-active-border-fg colour51
+
+# }
+# The statusbar {
+
+set -g status-position bottom
+set -g status-bg colour234
+set -g status-fg colour137
+set -g status-attr dim
+set -g status-left '#[fg=colour232,bold,bg=colour69][ #S ]'
+set -g status-right '#[fg=colour233,bg=colour241,bold] %d/%m #[fg=colour233,bg=colour245,bold] %H:%M:%S '
+set -g status-right-length 50
+set -g status-left-length 20
+
+setw -g window-status-current-fg colour232
+setw -g window-status-current-bg colour150
+setw -g window-status-current-attr bold
+setw -g window-status-current-format ' #I#[fg=colour232,bold]:#[fg=colour233]#W#[fg=colour234]#F '
+
+setw -g window-status-fg colour138
+setw -g window-status-bg colour235
+setw -g window-status-attr bold
+setw -g window-status-format ' #I#[fg=colour231]:#[fg=colour250]#W#[fg=colour244]#F '
+
+setw -g window-status-bell-attr bold
+setw -g window-status-bell-fg colour255
+setw -g window-status-bell-bg colour1
+
+# }
+# The messages {
+
+set -g message-attr bold
+set -g message-fg colour232
+set -g message-bg colour166
+
+# }
+
+
+# # ------Basic Display Settings
+#
+set -g base-index 1         # start windows numbering at 1
+setw -g pane-base-index 1   # make pane numbering consistent with windows
+set -g renumber-windows on  # renumber windows when a window is closed
+set -g set-titles on                        # set terminal title
+set -g set-titles-string '#I #W'
+set -g display-panes-time 800 # slightly longer pane indicators display time
+set -g display-time 1000      # slightly longer status messages display time
+set -g status-interval 10     # redraw status line every 10 seconds
+# # clear both screen and history
+# # bind -n C-l send-keys C-l \; run 'sleep 0.1' \; clear-history
+# # activity
+# set -g monitor-activity on
+# set -g visual-activity off
+
 ##############################
 # => PLUGINS
 ##############################
@@ -266,5 +250,3 @@ run-shell '~/.tmux/plugins/tpm/tpm'
 # # switch to Ranger session
 # bind f switchc -t Finder
 # switch back to last session
-
-#
