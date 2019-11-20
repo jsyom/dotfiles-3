@@ -34,3 +34,7 @@ codi() {
     hi NonText ctermfg=0 |\
     Codi $syntax"
 }
+
+function mkv-to-mp4 {
+  ffmpeg -i $1 -c:v copy -c:a copy $2
+}

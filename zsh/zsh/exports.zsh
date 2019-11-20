@@ -5,20 +5,20 @@ export PATH="/usr/local/bin:$PATH"
 export PATH="$PATH:`yarn global bin`"
 export ZSH=$HOME/.oh-my-zsh
 
-# export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-# platform=$(uname)
-#
-# if [[ $platform == *Darwin* ]];
-# then
-#   # This makes our PATH visible to GUI apps
-#   launchctl setenv PATH $PATH
-#
-#   # Brew paths over system paths
-#   export PATH=/usr/local/bin:/usr/local/sbin:$PATH
-#
-#   # NPM binaries on PATH as well
-#   export PATH=/usr/local/share/npm/bin:$PATH
-# fi
+export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+platform=$(uname)
+
+if [[ $platform == *Darwin* ]];
+then
+  # This makes our PATH visible to GUI apps
+  launchctl setenv PATH $PATH
+
+  # Brew paths over system paths
+  export PATH=/usr/local/bin:/usr/local/sbin:$PATH
+
+  # NPM binaries on PATH as well
+  export PATH=/usr/local/share/npm/bin:$PATH
+fi
 
 # Language Support
 export LC_CTYPE=en_US.UTF-8
@@ -37,4 +37,4 @@ export KEYTIMEOUT=1
 # Load fzf
 # export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git -f -g "" -u"
 export FZF_DEFAULT_COMMAND="ag -g ''"
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

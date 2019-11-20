@@ -4,8 +4,10 @@ DOTFILES=$HOME/.dotfiles
 ZSH=$HOME/.oh-my-zsh
 # Path To Custon Settings
 ZSH_CUSTOM=$HOME/.zsh_custom
-ZSH_THEME=''
+# ZSH_THEME=''
 DEFAULT_USER=yommy
+BASE16_SHELL=$HOME/.config/base16-shell/
+[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # Plugins
 plugins=(git osx node npm vi-mode z zsh-syntax-highlighting)
@@ -17,8 +19,8 @@ for config ($DOTFILES/zsh/zsh/*.zsh) source $config
 autoload -U promptinit; promptinit
 prompt pure
 
-BASE16_SHELL=$HOME/.config/base16-shell/
-[ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
+# BASE16_SHELL=$HOME/.config/base16-shell/
+# [ -n "$PS1" ] && [ -s $BASE16_SHELL/profile_helper.sh ] && eval "$($BASE16_SHELL/profile_helper.sh)"
 
 # Stash your environment variables in ~/.localrc. This means they'll stay out
 # of your main dotfiles repository (which may be public, like this one), but
@@ -27,6 +29,9 @@ if [[ -a ~/.localrc ]]; then
   source ~/.localrc
 fi
 
-# [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+export FZF_DEFAULT_COMMAND='ag -g "" --hidden'
+# export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git -f -g "" -u"
+# export FZF_DEFAULT_COMMAND="ag --hidden --ignore .git -f -g "" -u"
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

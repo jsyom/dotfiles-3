@@ -597,7 +597,7 @@ augroup FiletypeGroup
     au BufNewFile, BufRead *.jsx set filetype=javascript.jsx
 
 augroup END
-augroup filetype javascript syntax=javascript
+" augroup filetype javascript syntax=javascript
 
 " function to display ALE in airline
 " function! LinterStatus() abort

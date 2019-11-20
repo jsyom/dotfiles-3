@@ -1,0 +1,14 @@
+{
+  "extends": "airbnb",
+  "parser": "babel-eslint",
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "semi": ["error", "never"],
+    "comma-dangle": ["error", "never"],
+    "quotes": [2, "single", { "avoidEscape": true }],
+    "jsx-quotes": ["warn", "prefer-single"]
+  }
+}
